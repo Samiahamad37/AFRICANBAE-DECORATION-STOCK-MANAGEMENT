@@ -1,0 +1,102 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e0e0d8;
+  padding: 28px;
+  width: 360px;
+  max-width: 95vw;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 6px;
+}
+
+.productName {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.stockInfo {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 16px;
+}
+
+.label {
+  display: block;
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 15px;
+  border: 1px solid #d0d0c8;
+  border-radius: 8px;
+  color: #111;
+  outline: none;
+  transition: border-color 0.12s;
+}
+
+.input:focus { border-color: #1a56db; }
+
+.error {
+  font-size: 12px;
+  color: #e24b4a;
+  margin-top: 6px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.actions button {
+  flex: 1;
+  padding: 11px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  transition: background 0.12s;
+}
+
+.btnCancel {
+  background: #f0f0ec;
+  color: #444;
+}
+
+.btnCancel:hover { background: #e4e4e0; }
+
+.btnSell {
+  background: #16a34a;
+  color: #fff;
+}
+
+.btnSell:hover:not(:disabled) { background: #15803d; }
+
+.btnRestock {
+  background: #1a56db;
+  color: #fff;
+}
+
+.btnRestock:hover:not(:disabled) { background: #1e40af; }
+
+.actions button:disabled { opacity: 0.6; cursor: not-allowed; }
