@@ -5,6 +5,20 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 })
 
+// Add JWT token to requests
+api.interceptors.request.use((config) => {
+  const tokens = localStorage.getItem('tokens')
+  if (tokens) {
+    try {
+      const parsed = JSON.parse(tokens)
+      config.headers.Authorization = `Bearer ${parsed.access}`
+    } catch (e) {
+      console.error('Error parsing tokens:', e)
+    }
+  }
+  return config
+})
+
 // ── Products ──────────────────────────────────────────────
 export const getProducts = () => api.get('/products/')
 

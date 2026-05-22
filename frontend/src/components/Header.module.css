@@ -58,3 +58,46 @@
   color: #111;
   font-weight: 600;
 }
+
+.auth {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.username {
+  font-size: 14px;
+  color: #555;
+  font-weight: 600;
+}
+
+.logoutBtn,
+.link {
+  padding: 8px 16px;
+  background: #1a56db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.logoutBtn:hover,
+.link:hover {
+  background: #0d3face;
+  transform: translateY(-1px);
+}
+
+.authLinks {
+  display: flex;
+  gap: 8px;
+}
