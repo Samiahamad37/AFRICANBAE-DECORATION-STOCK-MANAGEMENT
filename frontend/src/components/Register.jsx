@@ -9,6 +9,8 @@ export default function Register() {
   const [password, setPassword] = useState('')
   const [password2, setPassword2] = useState('')
   const [passwordMatch, setPasswordMatch] = useState(true)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword2, setShowPassword2] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const { register, error } = useAuth()
   const navigate = useNavigate()
@@ -68,26 +70,46 @@ export default function Register() {
 
           <div className={styles.formGroup}>
             <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={handlePasswordChange}
-              required
-              placeholder="Enter a strong password"
-            />
+            <div className={styles.passwordInputWrapper}>
+              <input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={handlePasswordChange}
+                required
+                placeholder="Enter a strong password"
+              />
+              <button
+                type="button"
+                className={styles.togglePasswordBtn}
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? '👁️' : '👁️‍🗨️'}
+              </button>
+            </div>
           </div>
 
           <div className={styles.formGroup}>
             <label htmlFor="password2">Confirm Password</label>
-            <input
-              id="password2"
-              type="password"
-              value={password2}
-              onChange={handlePassword2Change}
-              required
-              placeholder="Confirm your password"
-            />
+            <div className={styles.passwordInputWrapper}>
+              <input
+                id="password2"
+                type={showPassword2 ? 'text' : 'password'}
+                value={password2}
+                onChange={handlePassword2Change}
+                required
+                placeholder="Confirm your password"
+              />
+              <button
+                type="button"
+                className={styles.togglePasswordBtn}
+                onClick={() => setShowPassword2(!showPassword2)}
+                aria-label={showPassword2 ? 'Hide password' : 'Show password'}
+              >
+                {showPassword2 ? '👁️' : '👁️‍🗨️'}
+              </button>
+            </div>
             {!passwordMatch && <div className={styles.error}>Passwords do not match</div>}
           </div>
 
