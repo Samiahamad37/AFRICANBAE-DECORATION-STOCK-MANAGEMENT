@@ -59,6 +59,33 @@
   font-weight: 600;
 }
 
+.navTabs {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.navTab {
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #888;
+  cursor: pointer;
+  padding: 8px 0;
+  border-bottom: 3px solid transparent;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.navTab:hover {
+  color: #1a56db;
+}
+
+.navTab.active {
+  color: #1a56db;
+  border-bottom-color: #1a56db;
+}
+
 .auth {
   display: flex;
   align-items: center;
