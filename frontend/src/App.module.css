@@ -12,6 +12,54 @@
   width: 100%;
 }
 
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.section {
+  margin-bottom: 32px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #111;
+}
+
+.totalSales {
+  font-size: 16px;
+  color: #667eea;
+  font-weight: 600;
+  
+}
+
+.btn {
+  padding: 10px 20px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btn:hover {
+  background: #5568d3;
+  transform: translateY(-1px);
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
@@ -23,6 +71,17 @@
   padding: 80px 20px;
   color: #888;
   font-size: 15px;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: #888;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
 }
 
 .error {
@@ -56,3 +115,161 @@
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* Sales Page Styles */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.statCard {
+  background: white;
+  border: 1px solid #e0e0d8;
+  border-radius: 8px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.statCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.statLabel {
+  font-size: 13px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.statValue {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 12px;
+}
+
+.statIcon {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 32px;
+  opacity: 0.8;
+}
+
+.processSection {
+  background: white;
+  border: 1px solid #e0e0d8;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.processSection h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
+  margin: 0 0 16px 0;
+}
+
+.processForm {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.productSelect,
+.qtyInput {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.productSelect {
+  flex: 1;
+  min-width: 200px;
+}
+
+.productSelect:focus,
+.qtyInput:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.qtyInput {
+  width: 80px;
+}
+
+.processSaleBtn {
+  padding: 10px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  white-space: nowrap;
+}
+
+.processSaleBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.processSaleBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.historySection {
+  background: white;
+  border: 1px solid #e0e0d8;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.historySection h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
+  margin: 0 0 20px 0;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.emptyIcon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.emptyTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 8px 0;
+}
+
+.emptyText {
+  font-size: 14px;
+  color: #888;
+  margin: 0;
+}
