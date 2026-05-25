@@ -19,5 +19,11 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "vite": "^5.4.21"
+  },
+
+  "name": "decoration-shop-frontend",
+  "version": "0.1.0",
+  "engines": {
+    "node": "20.x"
   }
 }
