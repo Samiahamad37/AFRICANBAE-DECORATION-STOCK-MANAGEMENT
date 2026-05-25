@@ -110,8 +110,7 @@ export default function Register() {
                 {showPassword2 ? '👁️' : '👁️‍🗨️'}
               </button>
             </div>
-            {!passwordMatch && <div className={styles.error}>Passwords do not match</div>}
-          </div>
+                    </div>
 
           {error && <div className={styles.error}>{error}</div>}
 
