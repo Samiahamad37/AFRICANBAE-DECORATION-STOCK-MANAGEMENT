@@ -13,11 +13,12 @@ from .auth_views import (
 router = DefaultRouter()
 router.register(r'products', ProductViewSet, basename='product')
 router.register(r'sales', SaleViewSet, basename='sale')
-router.register(r'auth/register', RegisterView, basename='register')
+# router.register(r'auth/register', RegisterView, basename='register')
 router.register(r'auth/change-password', ChangePasswordView, basename='change-password')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('auth/register/', RegisterView.as_view(), name='register'),
     path('auth/login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('auth/logout/', logout_view, name='logout'),
