@@ -97,7 +97,7 @@ export const AuthProvider = ({ children }) => {
   const changePassword = useCallback(async (oldPassword, newPassword, newPassword2) => {
     setError(null)
     try {
-      await api.post('/auth/change-password/change_password/', {
+      await api.post('/auth/change-password/', {
         old_password: oldPassword,
         new_password: newPassword,
         new_password2: newPassword2,
