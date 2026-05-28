@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
   const register = useCallback(async (username, email, password, password2) => {
     setError(null)
     try {
-      const response = await api.post('/auth/register/register/', {
+      const response = await api.post('/auth/register/', {
         username,
         email,
         password,
