@@ -18,7 +18,11 @@ router.register(r'auth/change-password', ChangePasswordView, basename='change-pa
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('auth/register/', RegisterView.as_view(), name='register'),
+    path(
+    'auth/register/',
+    RegisterView.as_view({'post': 'register'}),
+    name='register'
+),
     path('auth/login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('auth/logout/', logout_view, name='logout'),
