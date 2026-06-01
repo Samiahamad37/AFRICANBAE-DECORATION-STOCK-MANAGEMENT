@@ -45,9 +45,9 @@ export default function Header({ totalProducts = 0, totalSales = 0 }) {
         </div>
 
         <div className={styles.topRight}>
-          {isAuthenticated && !isAuthPage ? (
+          {isAuthenticated && user && !isAuthPage ? (
             <div className={styles.userInfo}>
-              <span className={styles.username}>Welcome, {user?.username}!</span>
+              <span className={styles.username}>Welcome, {user.username}!</span>
               <button onClick={handleLogout} className={styles.logoutBtn}>
                 Logout
               </button>
