@@ -1,4 +1,4 @@
-.header {
+/* .header {
   background: #fff;
   border-bottom: 1px solid #e8e8e4;
   display: flex;
@@ -157,4 +157,263 @@
 .authLinks {
   display: flex;
   gap: 8px;
+} */
+
+
+.header {
+  background: #fff;
+  border-bottom: 1px solid #e8e8e4;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* ===========================
+   TOP SECTION
+=========================== */
+.topSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 20px 24px;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+  background: #1a56db;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+  letter-spacing: -0.3px;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #888;
+  margin: 2px 0 0 0;
+}
+
+.topRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+/* ===========================
+   USER INFO
+=========================== */
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.username {
+  font-size: 14px;
+  color: #555;
+  font-weight: 600;
+}
+
+.logoutBtn,
+.link {
+  padding: 8px 16px;
+  background: #1a56db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.logoutBtn:hover,
+.link:hover {
+  background: #0d47a1;
+  transform: translateY(-1px);
+}
+
+.authLinks {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ===========================
+   NAVIGATION SECTION
+=========================== */
+.navSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 12px 24px;
+  border-top: 1px solid #f0f0ed;
+}
+
+.navTabs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.navTab {
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #888;
+  cursor: pointer;
+  padding: 12px 0;
+  border-bottom: 3px solid transparent;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.navTab:hover {
+  color: #1a56db;
+}
+
+.active {
+  color: #1a56db;
+  border-bottom-color: #1a56db;
+}
+
+/* ===========================
+   STATS
+=========================== */
+.stats {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: #888;
+  font-weight: 600;
+}
+
+.statValue {
+  font-size: 16px;
+  color: #1a56db;
+  font-weight: 700;
+}
+
+/* ===========================
+   TABLET
+=========================== */
+@media (max-width: 768px) {
+  .topSection {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .topRight {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .userInfo {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .navSection {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navTabs {
+    width: 100%;
+  }
+
+  .stats {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+@media (max-width: 480px) {
+  .topSection,
+  .navSection {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .subtitle {
+    font-size: 12px;
+  }
+
+  .username {
+    font-size: 13px;
+  }
+
+  .navTabs {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .navTab {
+    width: 100%;
+    text-align: left;
+    padding: 10px 0;
+  }
+
+  .stats {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .logoutBtn,
+  .link {
+    width: 100%;
+    text-align: center;
+  }
 }
