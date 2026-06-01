@@ -8,7 +8,10 @@ from .auth_views import (
     ChangePasswordView,
     logout_view,
     user_profile,
+    RequestPasswordResetView,
+    PasswordResetConfirmView
 )
+
 
 router = DefaultRouter()
 router.register(r'products', ProductViewSet, basename='product')
@@ -27,4 +30,14 @@ urlpatterns = [
     path('auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('auth/logout/', logout_view, name='logout'),
     path('auth/profile/', user_profile, name='user_profile'),
+    path(
+        'password-reset/',
+        RequestPasswordResetView.as_view(),
+        name='password-reset'
+    ),
+    path(
+        'password-reset-confirm/<uidb64>/<token>/',
+        PasswordResetConfirmView.as_view(),
+        name='password-reset-confirm'
+    ),
 ]
