@@ -35,7 +35,7 @@ export default function Register() {
     const result = await register(username, email, password, password2)
     setIsLoading(false)
     if (result.success) {
-      navigate('/')
+      navigate('/login')
     }
   }
 
@@ -109,7 +109,13 @@ export default function Register() {
               >
                 {showPassword2 ? '👁️' : '👁️‍🗨️'}
               </button>
+             
             </div>
+             {password2 && password !== password2 && (
+                <div className={styles.error}>
+                   Passwords do not match.
+                 </div>
+)}
                     </div>
 
           {error && <div className={styles.error}>{error}</div>}
@@ -120,6 +126,7 @@ export default function Register() {
             className={styles.submitBtn}
           >
             {isLoading ? 'Creating account...' : 'Register'}
+
           </button>
         </form>
 
