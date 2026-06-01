@@ -12,6 +12,23 @@ SECRET_KEY = 'django-insecure-change-this-in-production-use-env-var'
 
 DEBUG = True
 
+# email verification 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_PORT = 587
+
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'yourgmail@gmail.com'
+
+EMAIL_HOST_PASSWORD = 'ghsi lqvm jiqv duyu'
+
+DEFAULT_FROM_EMAIL = 'hamadsamia37@gmail.com'
+
+
+
 ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
@@ -62,12 +79,27 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 
+
+
+
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+#         conn_max_age=600
+#     )
+# }
+
+from decouple import config
+
+DEBUG = config("DEBUG", default=True, cast=bool)
+
 DATABASES = {
-    'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+    "default": dj_database_url.config(
+        default=config("DATABASE_URL"),
         conn_max_age=600
     )
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
