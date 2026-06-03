@@ -7,13 +7,13 @@ from django.conf import settings
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(
+    new_password = serializers.CharField(
         write_only=True,
         required=True,
         validators=[validate_password],
         style={'input_type': 'password'}
     )
-    password2 = serializers.CharField(
+    new_password2 = serializers.CharField(
         write_only=True,
         required=True,
         style={'input_type': 'password'}
@@ -21,18 +21,18 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'password2')
+        fields = ('username', 'email', 'new_password', 'new_password2')
 
     def validate(self, attrs):
-        if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError({'password': "Passwords don't match."})
+        if attrs['new_password'] != attrs['new_password2']:
+            raise serializers.ValidationError({'new_password': "Passwords don't match."})
         return attrs
 
     def create(self, validated_data):
         user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
-            password=validated_data['password']
+            password=validated_data['new_password']
         )
         return user
 
@@ -63,9 +63,7 @@ class ChangePasswordSerializer(serializers.Serializer):
 class PasswordResetSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
-
 class PasswordResetConfirmSerializer(serializers.Serializer):
-    token = serializers.CharField()
     new_password = serializers.CharField(
         write_only=True,
         required=True,
@@ -76,33 +74,4 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
     def validate(self, attrs):
         if attrs['new_password'] != attrs['new_password2']:
             raise serializers.ValidationError({'new_password': "Passwords don't match."})
-        return attrs
-
-
-class PasswordResetSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-
-
-class PasswordResetConfirmSerializer(serializers.Serializer):
-    token = serializers.CharField()
-
-    new_password = serializers.CharField(
-        write_only=True,
-        required=True,
-        validators=[validate_password]
-    )
-
-    new_password2 = serializers.CharField(
-        write_only=True,
-        required=True
-    )
-
-    def validate(self, attrs):
-
-        if attrs['new_password'] != attrs['new_password2']:
-
-            raise serializers.ValidationError(
-                {'new_password': "Passwords don't match."}
-            )
-
         return attrs
