@@ -35,7 +35,9 @@ from rest_framework import status
 
 
 
-class RequestPasswordResetView(APIView):
+class PasswordResetView(APIView):
+    # permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def post(self, request):
 
@@ -58,7 +60,7 @@ class RequestPasswordResetView(APIView):
             token = PasswordResetTokenGenerator().make_token(user)
 
             reset_link = (
-                f"http://localhost:3000/"
+                f"http://localhost:5173/"
                 f"reset-password/{uidb64}/{token}"
             )
 
@@ -100,6 +102,8 @@ Click this link to reset your password:
 
 
 class PasswordResetConfirmView(APIView):
+    # permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def post(self, request, uidb64, token):
 
