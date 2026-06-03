@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 from django.db import transaction
 from .models import Product, Sale
 from .serializers import (
@@ -13,15 +13,16 @@ from .serializers import (
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    parser_classes = (MultiPartParser, FormParser) 
+ 
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context['request'] = self.request
         return context
 
-    @action(detail=True, methods=['post'], url_path='sell')
     @transaction.atomic
+    @action(detail=True, methods=['post'], url_path='sell',
+            parser_classes=[JSONParser, MultiPartParser, FormParser])
     def sell(self, request, pk=None):
         product = self.get_object()
         serializer = SellSerializer(
@@ -51,8 +52,9 @@ class ProductViewSet(viewsets.ModelViewSet):
             status=status.HTTP_201_CREATED,
         )
 
-    @action(detail=True, methods=['post'], url_path='restock')
     @transaction.atomic
+    @action(detail=True, methods=['post'], url_path='restock',
+            parser_classes=[JSONParser, MultiPartParser, FormParser])
     def restock(self, request, pk=None):
         product = self.get_object()
         serializer = RestockSerializer(data=request.data)
