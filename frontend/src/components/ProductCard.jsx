@@ -1,27 +1,43 @@
 import styles from './ProductCard.module.css'
 
-const FALLBACK = 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=400&q=80'
-
 export default function ProductCard({ product, onSell, onRestock, onDelete }) {
-  const { name, category, description, price, stock, image_url } = product
+  const {
+    name,
+    category,
+    description,
+    price,
+    stock,
+    image_url,
+    image
+  } = product
+
+  const img = image_url || image
 
   return (
     <div className={styles.card}>
-      <div className={styles.imgWrap}>
+
+      {img ? (
         <img
-          src={image_url || FALLBACK}
+          src={img}
           alt={name}
           className={styles.img}
-          onError={(e) => { e.target.src = FALLBACK }}
+          onError={(e) => {
+            e.target.style.display = 'none'
+          }}
         />
-        <button
-          className={styles.delBtn}
-          onClick={() => onDelete(product.id)}
-          aria-label={`Delete ${name}`}
-        >
-          🗑
-        </button>
-      </div>
+      ) : (
+        <div className={styles.noImage}>
+          No image uploaded
+        </div>
+      )}
+
+      <button
+        className={styles.delBtn}
+        onClick={() => onDelete(product.id)}
+        aria-label={`Delete ${name}`}
+      >
+        🗑
+      </button>
 
       <div className={styles.body}>
         <p className={styles.name}>{name}</p>
@@ -38,6 +54,7 @@ export default function ProductCard({ product, onSell, onRestock, onDelete }) {
         <button className={styles.btnSell} onClick={() => onSell(product)}>
           🛒 Sell Product
         </button>
+
         <button className={styles.btnRestock} onClick={() => onRestock(product)}>
           + Restock
         </button>
