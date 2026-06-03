@@ -3,12 +3,13 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView
 from .views import ProductViewSet, SaleViewSet
 from .auth_views import (
+    PasswordResetView,
     RegisterView,
     CustomTokenObtainPairView,
     ChangePasswordView,
     logout_view,
     user_profile,
-    RequestPasswordResetView,
+    PasswordResetView,
     PasswordResetConfirmView
 )
 
@@ -32,7 +33,7 @@ urlpatterns = [
     path('auth/profile/', user_profile, name='user_profile'),
     path(
         'password-reset/',
-        RequestPasswordResetView.as_view(),
+        PasswordResetView.as_view(),
         name='password-reset'
     ),
     path(
