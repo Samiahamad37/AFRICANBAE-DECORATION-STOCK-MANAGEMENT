@@ -61,7 +61,7 @@ export default function Inventory() {
   const handleRestockConfirm = async (productId, qty) => {
     setLoading(true)
     try {
-      const res = await restockProduct(productId, qty)
+      const res = await restockProduct(productId, parseInt(qty))
       setProducts((prev) =>
         prev.map((p) => (p.id === productId ? res.data : p))
       )
@@ -228,7 +228,7 @@ export default function Inventory() {
       {currentTab === 'add' && (
         <div className={styles.section}>
           <h2>Add New Product</h2>
-          <AddProductForm onSubmit={handleAdd} isLoading={loading} />
+          <AddProductForm onAdd={handleAdd} loading={loading} />
         </div>
       )}
 
