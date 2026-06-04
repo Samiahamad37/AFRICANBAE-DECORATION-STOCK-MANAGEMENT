@@ -12,20 +12,21 @@ SECRET_KEY = 'django-insecure-change-this-in-production-use-env-var'
 
 DEBUG = True
 
-# email verification 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# email verification
+# Use console backend if email credentials are not configured
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
 
-EMAIL_PORT = 587
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
 
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
 
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL ')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@africanbae.com')
 
 ALLOWED_HOSTS = ["*"]
 
@@ -155,11 +156,13 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
+    'http://localhost:5174',
+    'http://127.0.0.1:5174',
     
     'https://africanbae-decoration-stock-management-2.onrender.com',
     'https://africanbae-decoration-stock-management-3.onrender.com'
 ]
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = True
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
