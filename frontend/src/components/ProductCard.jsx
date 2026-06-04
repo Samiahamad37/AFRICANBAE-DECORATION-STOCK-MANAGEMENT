@@ -22,7 +22,11 @@ export default function ProductCard({ product, onSell, onRestock, onDelete }) {
           alt={name}
           className={styles.img}
           onError={(e) => {
+            console.error('Image load error:', img, e);
             e.target.style.display = 'none'
+          }}
+          onLoad={(e) => {
+            console.log('Image loaded successfully:', img);
           }}
         />
       ) : (
