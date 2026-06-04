@@ -6,9 +6,10 @@ export default function Modal({ product, type, onConfirm, onClose, loading }) {
   const isSell = type === 'sell'
 
   const handleConfirm = () => {
+    if (loading) return
     if (qty < 1) return
     if (isSell && qty > product.stock) return
-    onConfirm(product.id, qty)
+    onConfirm(qty)
   }
 
   return (

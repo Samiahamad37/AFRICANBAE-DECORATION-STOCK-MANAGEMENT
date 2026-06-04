@@ -42,6 +42,7 @@ export default function Inventory() {
 
   // ── Sell ──────────────────────────────────────────────────
   const handleSellConfirm = async (productId, qty) => {
+     if (loading) return
     setLoading(true)
     try {
       const res = await sellProduct(productId, qty)
@@ -50,8 +51,10 @@ export default function Inventory() {
       )
       setSales((prev) => [res.data.sale, ...prev])
       setModal(null)
+      await loadAll()       
     } catch (e) {
       alert(e.response?.data?.quantity?.[0] || 'Sale failed.')
+
     } finally {
       setLoading(false)
     }
@@ -59,6 +62,7 @@ export default function Inventory() {
 
   // ── Restock ────────────────────────────────────────────────
   const handleRestockConfirm = async (productId, qty) => {
+    if (loading) return
     setLoading(true)
     try {
       const res = await restockProduct(productId, parseInt(qty))
@@ -66,6 +70,7 @@ export default function Inventory() {
         prev.map((p) => (p.id === productId ? res.data : p))
       )
       setModal(null)
+      await loadAll()       
     } catch (e) {
       alert('Restock failed.')
     } finally {

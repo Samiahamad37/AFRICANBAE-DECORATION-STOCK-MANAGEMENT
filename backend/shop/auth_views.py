@@ -64,23 +64,27 @@ class PasswordResetView(APIView):
                 f"reset-password/{uidb64}/{token}"
             )
 
-            send_mail(
-                subject='Reset Your Password',
+            try:
+                send_mail(
+                    subject='Reset Your Password',
 
-                message=f'''
+                    message=f'''
 Hello {user.username},
 
 Click this link to reset your password:
 
 {reset_link}
-                ''',
+                    ''',
 
-                from_email=settings.DEFAULT_FROM_EMAIL,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
 
-                recipient_list=[email],
+                    recipient_list=[email],
 
-                fail_silently=False,
-            )
+                    fail_silently=False,
+                )
+            except Exception as e:
+                # Log the error but don't fail the request
+                print(f"Email sending failed: {e}")
 
             return Response(
                 {
