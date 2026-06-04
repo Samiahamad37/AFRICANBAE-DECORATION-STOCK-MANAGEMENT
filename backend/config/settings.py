@@ -138,7 +138,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-        
+
     ],
 }
 
@@ -157,6 +157,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5173',
     
     'https://africanbae-decoration-stock-management-2.onrender.com',
+    'https://africanbae-decoration-stock-management-3.onrender.com'
 ]
 CORS_ALLOW_ALL_ORIGINS = False
 
