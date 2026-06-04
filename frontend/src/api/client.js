@@ -38,4 +38,29 @@ export const restockProduct = (id, quantity) =>
 // ── Sales ─────────────────────────────────────────────────
 export const getSales = () => api.get('/sales/')
 
+
+
+// ── Password Reset ─────────────────────────────────────────
+
+export const forgotPassword = (email) =>
+  api.post('/password-reset/', {
+    email,
+  })
+
+export const resetPassword = (
+  uidb64,
+  token,
+  new_password,
+  new_password2
+) =>
+  api.post(
+    `/password-reset-confirm/${uidb64}/${token}/`,
+    {
+      new_password,
+      new_password2,
+    }
+  )
+
+
+
 export default api
