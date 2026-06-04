@@ -15,9 +15,9 @@ class ProductSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at', 'updated_at']
 
     def get_image_url(self, obj):
-        request = self.context.get('request')
-        if obj.image and request:
-            return request.build_absolute_uri(obj.image.url)
+        if obj.image:
+            # Use relative URL so frontend can proxy it
+            return obj.image.url
         return None
 
 
