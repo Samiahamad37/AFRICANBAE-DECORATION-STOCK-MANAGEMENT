@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../api/client";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./AuthPages.module.css";
@@ -18,9 +18,10 @@ function ForgotPassword() {
 
     try {
       const res = await axios.post(
-        "http://127.0.0.1:8000/api/password-reset/",
-        { email }
-      );
+   "/password-reset/",
+  { email }
+);
+      
 
       setMessage(
         res.data.message ||
