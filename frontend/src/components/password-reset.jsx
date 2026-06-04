@@ -1,4 +1,4 @@
-import api from "../api/client";
+import { forgotPassword } from "../api/client";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./AuthPages.module.css";
@@ -17,24 +17,22 @@ function ForgotPassword() {
     setError("");
 
     try {
-      const res = await axios.post(
-   "/password-reset/",
-  { email }
-);
-      
+      const res = await forgotPassword(email);
 
       setMessage(
         res.data.message ||
-          "Password reset link has been sent to your email."
+        "Password reset link has been sent to your email."
       );
     } catch (err) {
+      console.log(err);
+
       setError(
         err.response?.data?.message ||
-          "Failed to send reset link. Try again."
+        "Failed to send reset link."
       );
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
@@ -81,7 +79,7 @@ function ForgotPassword() {
         <div className={styles.footer}>
           <p>
             Remember your password?{" "}
-            <Link to="/login" className={styles.forgotLink}>
+            <Link to="/login">
               Login
             </Link>
           </p>

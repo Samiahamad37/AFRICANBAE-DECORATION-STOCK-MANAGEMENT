@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { resetPassword } from "../api/client";
 import styles from "./AuthPages.module.css";
 
 function ResetPasswordConfirm() {
@@ -14,22 +14,26 @@ function ResetPasswordConfirm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setLoading(true);
     setError("");
     setMessage("");
 
     try {
-      await axios.post(
-        `http://127.0.0.1:8000/api/password-reset-confirm/${uidb64}/${token}/`,
-        {
-           new_password,
-           new_password2,
-        }
+      await resetPassword(
+        uidb64,
+        token,
+        new_password,
+        new_password2
       );
 
       setMessage("Password reset successful!");
     } catch (err) {
-      setError("Failed to reset password. Try again.");
+      console.log(err);
+      setError(
+        err.response?.data?.message ||
+        "Failed to reset password."
+      );
     } finally {
       setLoading(false);
     }
@@ -40,29 +44,41 @@ function ResetPasswordConfirm() {
       <div className={styles.authCard}>
         <h1>Reset Password</h1>
 
-        {error && <div className={styles.error}>{error}</div>}
-        {message && <div className={styles.success}>{message}</div>}
+        {error && (
+          <div className={styles.error}>
+            {error}
+          </div>
+        )}
+
+        {message && (
+          <div className={styles.successMessage}>
+            {message}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           <div className={styles.formGroup}>
-            <label>New Password</label>
             <input
               type="password"
-              placeholder="Enter new password"
+              placeholder="New Password"
               value={new_password}
-              onChange={(e) => setNewPassword(e.target.value)}
+              onChange={(e) =>
+                setNewPassword(e.target.value)
+              }
+              required
             />
           </div>
 
           <div className={styles.formGroup}>
-            <label>Confirm Password</label>
             <input
               type="password"
-              placeholder="Confirm password"
+              placeholder="Confirm Password"
               value={new_password2}
-              onChange={(e) => setNewPassword2(e.target.value)}
+              onChange={(e) =>
+                setNewPassword2(e.target.value)
+              }
+              required
             />
-            
           </div>
 
           <button
@@ -70,7 +86,9 @@ function ResetPasswordConfirm() {
             className={styles.submitBtn}
             disabled={loading}
           >
-            {loading ? "Resetting..." : "Reset Password"}
+            {loading
+              ? "Resetting..."
+              : "Reset Password"}
           </button>
         </form>
       </div>
