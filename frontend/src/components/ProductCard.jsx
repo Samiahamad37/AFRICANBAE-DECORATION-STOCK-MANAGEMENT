@@ -7,11 +7,15 @@ export default function ProductCard({ product, onSell, onRestock, onDelete }) {
     description,
     price,
     stock,
-    image_url,
-    image
+    image,
+    
   } = product
 
-  const img = image_url || image
+  const img =
+  image?.startsWith("http")
+    ? image
+    : image_url
+
 
   return (
     <div className={styles.card}>
