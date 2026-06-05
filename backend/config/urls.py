@@ -14,4 +14,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('shop.urls')),
 ]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+from django.views.static import serve
+
+urlpatterns += [
+    path(
+        'media/<path:path>',
+        serve,
+        {'document_root': settings.MEDIA_ROOT}
+    ),
+]
