@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../api/client";
-git fetch origin
-git rebase origin/samya_feature
-git push
+import styles from "./AuthPages.module.css";
+
 function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
