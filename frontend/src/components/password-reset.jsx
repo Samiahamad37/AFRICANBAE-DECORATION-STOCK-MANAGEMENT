@@ -1,6 +1,6 @@
-import { forgotPassword } from "../api/client";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "../api/client";
 import styles from "./AuthPages.module.css";
 
 function ForgotPassword() {
@@ -17,21 +17,22 @@ function ForgotPassword() {
     setError("");
 
     try {
-      const res = await forgotPassword(email);
+      const res = await axios.post(
+        "/password-reset/",
+        { email }
+      );
 
       setMessage(
         res.data.message ||
         "Password reset link has been sent to your email."
       );
     } catch (err) {
-      console.log(err);
-
-      setError(
-        err.response?.data?.message ||
-        "Failed to send reset link."
-      );
-    } finally {
-      setLoading(false);
+      console.error('Password reset error:', err);
+      const errorMsg = err.response?.data?.message ||
+                       err.response?.data?.detail ||
+                       err.message ||
+                       "Failed to send reset link. Try again.";
+      setError(errorMsg);
     }
   };
 
