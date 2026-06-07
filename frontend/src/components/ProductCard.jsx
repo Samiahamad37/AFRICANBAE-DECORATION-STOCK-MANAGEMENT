@@ -27,7 +27,7 @@ export default function ProductCard({ product, onSell, onRestock, onDelete }) {
           className={styles.img}
           onError={(e) => {
             console.error('Image load error:', img, e);
-            e.target.style.display = 'none'
+            e.target.src = '/default-image.png';
           }}
           onLoad={(e) => {
             console.log('Image loaded successfully:', img);
