@@ -8,13 +8,11 @@ export default function ProductCard({ product, onSell, onRestock, onDelete }) {
     price,
     stock,
     image,
+    image_url,
     
-  } = product
+  } = product;
 
-  const img =
-  image?.startsWith("http")
-    ? image
-    : image_url
+const img = image_url || image;
 
 
   return (
@@ -26,9 +24,10 @@ export default function ProductCard({ product, onSell, onRestock, onDelete }) {
           alt={name}
           className={styles.img}
           onError={(e) => {
-            console.error('Image load error:', img, e);
-            e.target.src = '/default-image.png';
-          }}
+    console.error("Image load error:", img);
+    e.target.onerror = null;
+    e.target.src = "/default-image.png";
+}}
           onLoad={(e) => {
             console.log('Image loaded successfully:', img);
           }}
