@@ -1,4 +1,5 @@
 from pathlib import Path
+from decouple import config
 import os
 import cloudinary
 import dj_database_url
