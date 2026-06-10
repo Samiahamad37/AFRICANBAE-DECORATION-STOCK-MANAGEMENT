@@ -2,23 +2,20 @@ from pathlib import Path
 from decouple import config
 import os
 import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 import dj_database_url
 from dotenv import load_dotenv
 load_dotenv()  # Load environment variables from .env file
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-cloudinary.config(
-    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
-    api_key=os.getenv("CLOUDINARY_API_KEY"),
-    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
-    secure=True,
-)
+
 # Load .env file from config directory
 load_dotenv(BASE_DIR/ '.env')
 
 SECRET_KEY = 'django-insecure-change-this-in-production-use-env-var'
 
-DEBUG = True
+
 
 # email verification
 # Use console backend if email credentials are not configured
@@ -56,6 +53,13 @@ INSTALLED_APPS = [
      'cloudinary',
 ]
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': config('CLOUDINARY_API_KEY'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET'),
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -89,13 +93,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
-}
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
 
 
 
@@ -107,7 +107,6 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 #     )
 # }
 
-from decouple import config
 
 DEBUG = config("DEBUG", default=True, cast=bool)
 
@@ -136,7 +135,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
