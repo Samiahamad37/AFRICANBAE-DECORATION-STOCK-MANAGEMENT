@@ -52,8 +52,8 @@ INSTALLED_APPS = [
     # Local
     'shop',
     
+     'cloudinary_storage',
      'cloudinary',
-    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
