@@ -16,8 +16,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_image_url(self, obj):
         if obj.image:
-            # Use relative URL so frontend can proxy it
-            return obj.image.url
+             url = str(obj.image.url)
+        return url.replace('http://', 'https://')  # Ensure secure URL
         return None
 
 
