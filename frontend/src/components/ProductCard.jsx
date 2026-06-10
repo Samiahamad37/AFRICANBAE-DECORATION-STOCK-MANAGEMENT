@@ -12,11 +12,10 @@ export default function ProductCard({ product, onSell, onRestock, onDelete }) {
     
   } = product;
 
-const img =
-  image ||
-  (image_url
-    ? `https://africanbae-decoration-stock-management-3.onrender.com${image_url}`
-    : null);
+const img = image_url || image;
+
+console.log("Product:", product.id, product.name);
+console.log("Image URL:", img);
 
 
   return (
