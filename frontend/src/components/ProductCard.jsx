@@ -16,7 +16,7 @@ export default function ProductCard({
   } = product;
 
   // Use the full URL from the backend
-  const img = image || null;
+  const img = product.image_url || product.image || null;
 
   console.log("Product ID:", product.id);
   console.log("Product Name:", name);
