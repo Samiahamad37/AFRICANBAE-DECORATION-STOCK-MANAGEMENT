@@ -1,6 +1,11 @@
-import styles from './ProductCard.module.css'
+import styles from './ProductCard.module.css';
 
-export default function ProductCard({ product, onSell, onRestock, onDelete }) {
+export default function ProductCard({
+  product,
+  onSell,
+  onRestock,
+  onDelete,
+}) {
   const {
     name,
     category,
@@ -8,31 +13,27 @@ export default function ProductCard({ product, onSell, onRestock, onDelete }) {
     price,
     stock,
     image,
-    image_url,
-    
   } = product;
 
-const img = image_url || image;
+  // Use the full URL from the backend
+  const img = image || null;
 
-console.log("Product:", product.id, product.name);
-console.log("Image URL:", img);
-
+  console.log("Product ID:", product.id);
+  console.log("Product Name:", name);
+  console.log("Image URL:", img);
 
   return (
     <div className={styles.card}>
-
       {img ? (
         <img
           src={img}
           alt={name}
           className={styles.img}
-          onError={(e) => {
-    console.error("Image load error:", img);
-    e.target.onerror = null;
-    e.target.src = "/default-image.png";
-}}
-          onLoad={(e) => {
-            console.log('Image loaded successfully:', img);
+          onError={() => {
+            console.error("Image load error:", img);
+          }}
+          onLoad={() => {
+            console.log("Image loaded successfully:", img);
           }}
         />
       ) : (
@@ -55,20 +56,33 @@ console.log("Image URL:", img);
         <p className={styles.desc}>{description}</p>
 
         <div className={styles.meta}>
-          <span className={styles.price}>${Number(price).toFixed(2)}</span>
-          <span className={`${styles.stock} ${stock <= 5 ? styles.stockLow : ''}`}>
+          <span className={styles.price}>
+            ${Number(price).toFixed(2)}
+          </span>
+
+          <span
+            className={`${styles.stock} ${
+              stock <= 5 ? styles.stockLow : ''
+            }`}
+          >
             Stock: {stock}
           </span>
         </div>
 
-        <button className={styles.btnSell} onClick={() => onSell(product)}>
+        <button
+          className={styles.btnSell}
+          onClick={() => onSell(product)}
+        >
           🛒 Sell Product
         </button>
 
-        <button className={styles.btnRestock} onClick={() => onRestock(product)}>
+        <button
+          className={styles.btnRestock}
+          onClick={() => onRestock(product)}
+        >
           + Restock
         </button>
       </div>
     </div>
-  )
+  );
 }
