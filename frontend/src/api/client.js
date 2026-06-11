@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+console.log("API URL:", import.meta.env.VITE_API_URL);
+
 const api = axios.create({
  baseURL: import.meta.env.VITE_API_URL,
   headers: { 'Content-Type': 'application/json' },
@@ -60,7 +62,8 @@ export const resetPassword = (
       new_password2,
     }
   )
-
+// api/client.js
+axios.defaults.withCredentials = true;
 
 
 export default api
