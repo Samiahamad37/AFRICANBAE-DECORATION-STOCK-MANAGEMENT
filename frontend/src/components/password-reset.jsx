@@ -33,8 +33,12 @@ function ForgotPassword() {
                        err.message ||
                        "Failed to send reset link. Try again.";
       setError(errorMsg);
-    }
+      }
+       finally {
+    setLoading(false);     // ← This was missing
+  }
   };
+
 
   return (
     <div className={styles.authContainer}>
@@ -62,6 +66,7 @@ function ForgotPassword() {
             disabled={loading}
           >
             {loading ? "Sending..." : "Send Reset Link"}
+
           </button>
         </form>
 
