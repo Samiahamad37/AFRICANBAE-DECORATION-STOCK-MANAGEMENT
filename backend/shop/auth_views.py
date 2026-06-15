@@ -59,10 +59,14 @@ class PasswordResetView(APIView):
 
             token = PasswordResetTokenGenerator().make_token(user)
 
-            reset_link = (
-                f"http://localhost:5173/"
-                f"reset-password/{uidb64}/{token}"
-            )
+            # reset_link = (
+            #     f"http://localhost:5173/"
+            #     f"reset-password/{uidb64}/{token}"
+
+            # AFTER
+            frontend_url = settings.FRONTEND_URL  # ← read from environment variable
+            reset_link = f"{frontend_url}/reset-password/{uidb64}/{token}"
+            
 
             try:
                 send_mail(
