@@ -19,13 +19,14 @@ SECRET_KEY = 'django-insecure-change-this-in-production-use-env-var'
 
 # email verification
 # Use console backend if email credentials are not configured
-EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
 
 EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
 
 EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
 
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
 
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 
