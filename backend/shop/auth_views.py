@@ -66,12 +66,10 @@ class PasswordResetView(APIView):
             # AFTER
             frontend_url = settings.FRONTEND_URL  # ← read from environment variable
             reset_link = f"{frontend_url}/reset-password/{uidb64}/{token}"
-            
 
             try:
                 send_mail(
                     subject='Reset Your Password',
-
                     message=f'''
 Hello {user.username},
 
@@ -79,16 +77,19 @@ Click this link to reset your password:
 
 {reset_link}
                     ''',
-
                     from_email=settings.DEFAULT_FROM_EMAIL,
-
                     recipient_list=[email],
-
                     fail_silently=False,
                 )
+
             except Exception as e:
-                # Log the error but don't fail the request
-                print(f"Email sending failed: {e}")
+                return Response(
+                    {
+                        "success": False,
+                        "error": str(e)
+                    },
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
 
             return Response(
                 {
