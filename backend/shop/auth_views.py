@@ -52,6 +52,11 @@ class PasswordResetView(APIView):
         try:
 
             user = User.objects.get(email=email)
+            
+            print("USER FOUND")
+            print("ID:", user.id)
+            print("USERNAME:", user.username)
+            print("EMAIL:", user.email)
 
             uidb64 = urlsafe_base64_encode(
                 smart_bytes(user.id)
