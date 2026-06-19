@@ -69,26 +69,21 @@ class PasswordResetView(APIView):
 
             try:
                 send_mail(
-                    subject='Reset Your Password',
-                    message=f'''
-Hello {user.username},
-
-Click this link to reset your password:
-
-{reset_link}
-                    ''',
+                    subject="Reset Your Password",
+                    message=f"Reset link: {reset_link}",
                     from_email=settings.DEFAULT_FROM_EMAIL,
                     recipient_list=[email],
                     fail_silently=False,
                 )
-
             except Exception as e:
+                import traceback
+                print(traceback.format_exc())
                 return Response(
                     {
                         "success": False,
                         "error": str(e)
                     },
-                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                    status=500
                 )
 
             return Response(
