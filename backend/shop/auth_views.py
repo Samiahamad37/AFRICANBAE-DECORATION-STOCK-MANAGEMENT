@@ -31,6 +31,7 @@ from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+import traceback
 
 
 
@@ -69,8 +70,14 @@ class PasswordResetView(APIView):
             #     f"reset-password/{uidb64}/{token}"
 
             # AFTER
-            frontend_url = settings.FRONTEND_URL  # ← read from environment variable
+            frontend_url = settings.FRONTEND_URL
             reset_link = f"{frontend_url}/reset-password/{uidb64}/{token}"
+
+            print("EMAIL_BACKEND =", settings.EMAIL_BACKEND)
+            print("EMAIL_HOST =", settings.EMAIL_HOST)
+            print("EMAIL_PORT =", settings.EMAIL_PORT)
+            print("EMAIL_HOST_USER =", settings.EMAIL_HOST_USER)
+            print("DEFAULT_FROM_EMAIL =", settings.DEFAULT_FROM_EMAIL)
 
             try:
                 send_mail(
@@ -81,15 +88,11 @@ class PasswordResetView(APIView):
                     fail_silently=False,
                 )
             except Exception as e:
-                import traceback
                 print(traceback.format_exc())
-                return Response(
-                    {
-                        "success": False,
-                        "error": str(e)
-                    },
-                    status=500
-                )
+                return Response({
+                    "success": False,
+                    "error": str(e)
+                }, status=500)
 
             return Response(
                 {
