@@ -8,7 +8,6 @@ __pycache__/
 *.pyc
 db.sqlite3
 
-# Environment variables
 
 
 # VS Code
