@@ -7,6 +7,7 @@ function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [resetLink, setResetLink] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -15,6 +16,7 @@ function ForgotPassword() {
     setLoading(true);
     setMessage("");
     setError("");
+    setResetLink("");
 
     try {
       const res = await axios.post(
@@ -22,9 +24,15 @@ function ForgotPassword() {
         { email }
       );
 
+      const localResetLink = res.data.reset_path
+        ? `${window.location.origin}${res.data.reset_path}`
+        : res.data.reset_link;
+
+      setResetLink(localResetLink || "");
       setMessage(
-        res.data.message ||
-        "Password reset link has been sent to your email."
+        localResetLink
+          ? "Reset link generated. Click the button below to set a new password."
+          : res.data.message || "If that email exists, a reset link has been generated."
       );
     } catch (err) {
       console.error('Password reset error:', err);
@@ -47,7 +55,7 @@ function ForgotPassword() {
         <h1>Forgot Password</h1>
 
         <p className={styles.subtitle}>
-          Enter your email and we will send you a reset link
+          Enter your email and we will generate a reset link on this page.
         </p>
 
         <form onSubmit={handleSubmit}>
@@ -66,7 +74,7 @@ function ForgotPassword() {
             className={styles.submitBtn}
             disabled={loading}
           >
-            {loading ? "Sending..." : "Send Reset Link"}
+            {loading ? "Generating..." : "Generate Reset Link"}
 
           </button>
         </form>
@@ -75,6 +83,12 @@ function ForgotPassword() {
           <div className={styles.successMessage}>
             {message}
           </div>
+        )}
+
+        {resetLink && (
+          <a className={styles.resetLink} href={resetLink}>
+            Open reset password page
+          </a>
         )}
 
         {error && (
