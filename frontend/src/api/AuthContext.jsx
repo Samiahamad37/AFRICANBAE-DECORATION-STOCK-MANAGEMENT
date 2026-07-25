@@ -54,7 +54,14 @@ export const AuthProvider = ({ children }) => {
       api.defaults.headers.common['Authorization'] = `Bearer ${response.data.tokens.access}`
       return { success: true }
     } catch (err) {
-      const errorMsg = err.response?.data?.username?.[0] || err.response?.data?.email?.[0] || 'Registration failed'
+      const errorMsg =
+        err.response?.data?.username?.[0] ||
+        err.response?.data?.email?.[0] ||
+        err.response?.data?.password?.[0] ||
+        err.response?.data?.password2?.[0] ||
+        err.response?.data?.non_field_errors?.[0] ||
+        err.response?.data?.detail ||
+        'Registration failed'
       setError(errorMsg)
       return { success: false, error: errorMsg }
     }
@@ -69,11 +76,12 @@ export const AuthProvider = ({ children }) => {
       })
       setTokens(response.data)
       setUser({
-        username: response.data.username,
-        email: response.data.email,
+        username: response.data.username || username,
+        email: response.data.email || '',
       })
       localStorage.setItem('tokens', JSON.stringify(response.data))
       api.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`
+      fetchUserProfile(response.data.access)
       return { success: true }
     } catch (err) {
       const errorMsg = err.response?.data?.detail || 'Login failed'
