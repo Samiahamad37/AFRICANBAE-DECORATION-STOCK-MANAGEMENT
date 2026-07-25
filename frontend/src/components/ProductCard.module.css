@@ -169,13 +169,12 @@
   }
 
   .img {
-    height: auto;
-    max-height: 280px;
+    height: 205px;
     object-fit: contain;
   }
 
   .noImage {
-    height: 190px;
+    height: 205px;
   }
 
   .body {
