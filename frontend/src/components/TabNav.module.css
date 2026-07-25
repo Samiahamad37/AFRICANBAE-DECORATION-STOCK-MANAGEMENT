@@ -1,8 +1,8 @@
 .nav {
   display: flex;
   align-items: center;
-  border-bottom: 2px solid #e8e8e4;
-  background: #fff;
+  border-bottom: 2px solid #eadfce;
+  background: #fffaf3;
   padding: 0 24px;
 }
 
@@ -13,7 +13,7 @@
   padding: 14px 20px;
   font-size: 14px;
   font-weight: 500;
-  color: #777;
+  color: #7c6f64;
   background: none;
   border: none;
   border-bottom: 2.5px solid transparent;
@@ -21,11 +21,11 @@
   transition: color 0.15s, border-color 0.15s;
 }
 
-.tab:hover { color: #222; }
+.tab:hover { color: #5f321d; }
 
 .tab.active {
-  color: #1a56db;
-  border-bottom-color: #1a56db;
+  color: #8a4f2f;
+  border-bottom-color: #8a4f2f;
 }
 
 .icon {
