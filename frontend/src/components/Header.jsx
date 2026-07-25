@@ -20,7 +20,11 @@ export default function Header({ totalProducts = 0, totalSales = 0 }) {
   }
 
   // Don't show full header on auth pages
-  const isAuthPage = location.pathname === '/login' || location.pathname === '/register'
+  const isAuthPage =
+    location.pathname === '/login' ||
+    location.pathname === '/register' ||
+    location.pathname === '/forgot-password' ||
+    location.pathname.startsWith('/reset-password')
 
   // Determine active tab based on current path
   const getActiveTab = () => {
