@@ -416,8 +416,8 @@
   }
 
   .userInfo {
-    justify-content: flex-start;
-    gap: 18px;
+    justify-content: space-between;
+    gap: 12px;
   }
 
   .navTabs {
