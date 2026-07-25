@@ -120,6 +120,25 @@
   margin-bottom: 15px;
 }
 
+.resetLink {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  background: #f1d8bf;
+  border: 1px solid #d5b895;
+  border-radius: 14px;
+  color: #5f321d;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 12px 0 0;
+  text-align: center;
+  text-decoration: none;
+}
+
+.resetLink:hover {
+  background: #ead8c3;
+}
+
 .submitBtn {
   width: 100%;
   padding: 14px;
