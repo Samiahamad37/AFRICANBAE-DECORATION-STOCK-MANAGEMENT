@@ -163,7 +163,17 @@
 .btnRestock:hover { background: #5f321d; }
 
 @media (max-width: 480px) {
-  .img,
+  .card {
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  .img {
+    height: auto;
+    max-height: 280px;
+    object-fit: contain;
+  }
+
   .noImage {
     height: 190px;
   }
