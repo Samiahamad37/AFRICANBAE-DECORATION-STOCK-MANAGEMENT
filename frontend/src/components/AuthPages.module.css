@@ -72,6 +72,10 @@
   align-items: center;
 }
 
+.passwordInputWrapper input {
+  padding-right: 48px;
+}
+
 .togglePasswordBtn {
   position: absolute;
   right: 12px;
