@@ -10,6 +10,7 @@ import AddProductForm from './AddProductForm'
 import SalesTable from './SalesTable'
 import styles from '../App.module.css'
 import modalStyles from './Modal.module.css'
+import { formatTsh } from '../utils/currency'
 
 export default function Inventory({
   setProducts: setHeaderProducts,
@@ -26,6 +27,7 @@ export default function Inventory({
   const [selectedProductId, setSelectedProductId] = useState('')
   const [saleQty, setSaleQty] = useState('1')
   const [editingProduct, setEditingProduct] = useState(null)
+  const [isProductMenuOpen, setIsProductMenuOpen] = useState(false)
 
   // Determine active tab based on location pathname
   const currentTab = location.pathname === '/sales' ? 'sales' : location.pathname === '/add' ? 'add' : 'inventory'
@@ -167,6 +169,7 @@ export default function Inventory({
 
   // ── Derived stats ──────────────────────────────────────────
   const totalSales = sales.reduce((s, x) => s + Number(x.total), 0)
+  const selectedProduct = products.find((p) => String(p.id) === selectedProductId)
 
   if (fetching)
     return <div className={styles.loading}>Loading...</div>
@@ -203,7 +206,7 @@ export default function Inventory({
           <div className={styles.statsGrid}>
             <div className={styles.statCard}>
               <div className={styles.statLabel}>Total Revenue</div>
-              <div className={styles.statValue}>${totalSales.toFixed(2)}</div>
+              <div className={styles.statValue}>{formatTsh(totalSales)}</div>
               <div className={styles.statIcon}>💵</div>
             </div>
             <div className={styles.statCard}>
@@ -224,19 +227,41 @@ export default function Inventory({
           <div className={styles.processSection}>
             <h3>Process New Sale</h3>
             <form onSubmit={handleProcessSale} className={styles.processForm}>
-              <select
-                value={selectedProductId}
-                onChange={(e) => setSelectedProductId(e.target.value)}
-                className={styles.productSelect}
-                required
-              >
-                <option value="">Select a product...</option>
-                {products.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.name} (Stock: {p.stock})
-                  </option>
-                ))}
-              </select>
+              <div className={styles.productDropdown}>
+                <button
+                  type="button"
+                  className={styles.productSelectButton}
+                  onClick={() => setIsProductMenuOpen((open) => !open)}
+                >
+                  <span>
+                    {selectedProduct
+                      ? `${selectedProduct.name} (Stock: ${selectedProduct.stock})`
+                      : 'Select a product...'}
+                  </span>
+                  <span className={styles.dropdownArrow}>▾</span>
+                </button>
+
+                {isProductMenuOpen && (
+                  <div className={styles.productOptions}>
+                    {products.map((p) => (
+                      <button
+                        key={p.id}
+                        type="button"
+                        className={`${styles.productOption} ${
+                          String(p.id) === selectedProductId ? styles.productOptionActive : ''
+                        }`}
+                        onClick={() => {
+                          setSelectedProductId(String(p.id))
+                          setIsProductMenuOpen(false)
+                        }}
+                      >
+                        <span>{p.name}</span>
+                        <span>Stock: {p.stock}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
               <input
                 type="number"
                 min="1"
