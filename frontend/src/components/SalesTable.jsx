@@ -1,4 +1,5 @@
 import styles from './SalesTable.module.css'
+import { formatTsh } from '../utils/currency'
 
 export default function SalesTable({ sales }) {
   if (!sales.length) {
@@ -15,7 +16,7 @@ export default function SalesTable({ sales }) {
   return (
     <div className={styles.wrap}>
       <div className={styles.summary}>
-        Grand total revenue: <strong>${grandTotal.toFixed(2)}</strong>
+        Grand total revenue: <strong>{formatTsh(grandTotal)}</strong>
         &nbsp;·&nbsp; {sales.length} transaction{sales.length !== 1 ? 's' : ''}
       </div>
       <div className={styles.tableWrap}>
@@ -39,8 +40,8 @@ export default function SalesTable({ sales }) {
                 <td>{s.product_name}</td>
                 <td className={styles.muted}>{s.product_category}</td>
                 <td>{s.quantity}</td>
-                <td>${Number(s.unit_price).toFixed(2)}</td>
-                <td className={styles.bold}>${Number(s.total).toFixed(2)}</td>
+                <td>{formatTsh(s.unit_price)}</td>
+                <td className={styles.bold}>{formatTsh(s.total)}</td>
                 <td className={styles.muted}>
                   {new Date(s.sold_at).toLocaleDateString()}
                 </td>
