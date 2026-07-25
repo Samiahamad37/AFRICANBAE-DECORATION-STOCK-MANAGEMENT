@@ -25,13 +25,11 @@ from django.utils.encoding import (
     force_str
 )
 
-from django.core.mail import send_mail
 from django.conf import settings
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-import traceback
 
 
 
@@ -65,39 +63,16 @@ class PasswordResetView(APIView):
 
             token = PasswordResetTokenGenerator().make_token(user)
 
-            # reset_link = (
-            #     f"http://localhost:5173/"
-            #     f"reset-password/{uidb64}/{token}"
-
-            # AFTER
             frontend_url = settings.FRONTEND_URL
-            reset_link = f"{frontend_url}/reset-password/{uidb64}/{token}"
-
-            print("EMAIL_BACKEND =", settings.EMAIL_BACKEND)
-            print("EMAIL_HOST =", settings.EMAIL_HOST)
-            print("EMAIL_PORT =", settings.EMAIL_PORT)
-            print("EMAIL_HOST_USER =", settings.EMAIL_HOST_USER)
-            print("DEFAULT_FROM_EMAIL =", settings.DEFAULT_FROM_EMAIL)
-
-            try:
-                send_mail(
-                    subject="Reset Your Password",
-                    message=f"Reset link: {reset_link}",
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[email],
-                    fail_silently=False,
-                )
-            except Exception as e:
-                print(traceback.format_exc())
-                return Response({
-                    "success": False,
-                    "error": str(e)
-                }, status=500)
+            reset_path = f"/reset-password/{uidb64}/{token}"
+            reset_link = f"{frontend_url}{reset_path}"
 
             return Response(
                 {
                     "success": True,
-                    "message": "Password reset email sent"
+                    "message": "Password reset link generated",
+                    "reset_link": reset_link,
+                    "reset_path": reset_path,
                 },
                 status=status.HTTP_200_OK
             )
