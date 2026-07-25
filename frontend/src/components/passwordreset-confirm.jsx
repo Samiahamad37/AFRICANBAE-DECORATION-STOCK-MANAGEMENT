@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "../api/client";
 import styles from "./AuthPages.module.css";
 
 function ResetPasswordConfirm() {
   const { uidb64, token } = useParams();
+  const navigate = useNavigate();
 
   const [new_password, setNewPassword] = useState("");
   const [new_password2, setNewPassword2] = useState("");
@@ -35,6 +36,9 @@ function ResetPasswordConfirm() {
       
 
       setMessage("Password reset successful!");
+      setTimeout(() => {
+        navigate("/login", { replace: true });
+      }, 1200);
     } catch (err) {
       const errorMsg = err.response?.data?.new_password?.[0] ||
                        err.response?.data?.non_field_errors?.[0] ||
