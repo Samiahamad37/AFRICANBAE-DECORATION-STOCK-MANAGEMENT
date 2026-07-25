@@ -1,7 +1,8 @@
 .wrap {
-  background: #fff;
-  border: 1px solid #e8e8e4;
-  border-radius: 14px;
+  background: rgba(255, 250, 243, 0.96);
+  border: 1px solid #eadfce;
+  border-radius: 22px;
+  box-shadow: 0 14px 34px rgba(72, 47, 31, 0.08);
   padding: 28px;
   max-width: 520px;
 }
@@ -9,7 +10,7 @@
 .heading {
   font-size: 17px;
   font-weight: 700;
-  color: #111;
+  color: #241a14;
   margin-bottom: 20px;
 }
 
@@ -24,7 +25,7 @@
 .label {
   display: block;
   font-size: 13px;
-  color: #555;
+  color: #6f5542;
   margin-bottom: 5px;
   margin-top: 14px;
 }
@@ -33,17 +34,20 @@
 
 .input, .textarea {
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px 14px;
   font-size: 14px;
-  border: 1px solid #d0d0c8;
-  border-radius: 8px;
-  color: #111;
+  border: 1px solid #e2d4c3;
+  border-radius: 12px;
+  color: #241a14;
   background: #fff;
   outline: none;
-  transition: border-color 0.12s;
+  transition: border-color 0.12s, box-shadow 0.12s;
 }
 
-.input:focus, .textarea:focus { border-color: #1a56db; }
+.input:focus, .textarea:focus {
+  border-color: #8a4f2f;
+  box-shadow: 0 0 0 4px rgba(138, 79, 47, 0.12);
+}
 
 .inputError { border-color: #e24b4a !important; }
 
@@ -52,7 +56,7 @@
 .fileInput {
   width: 100%;
   font-size: 13px;
-  color: #555;
+  color: #6f5542;
 }
 
 .row {
@@ -65,7 +69,7 @@
 
 .error {
   font-size: 12px;
-  color: #e24b4a;
+  color: #b42318;
   margin-top: 4px;
 }
 
@@ -79,7 +83,7 @@
 .cancel {
   width: 100%;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 13px;
   font-size: 14px;
   font-weight: 700;
@@ -87,17 +91,17 @@
 }
 
 .submit {
-  background: #1a56db;
+  background: linear-gradient(135deg, #8a4f2f 0%, #5f321d 100%);
   color: #fff;
 }
 
 .cancel {
-  background: #f0f0ec;
-  color: #444;
+  background: #f1e5d6;
+  color: #5f321d;
 }
 
-.submit:hover:not(:disabled) { background: #1e40af; }
-.cancel:hover:not(:disabled) { background: #e4e4e0; }
+.submit:hover:not(:disabled) { background: linear-gradient(135deg, #9b5a36 0%, #6b3921 100%); }
+.cancel:hover:not(:disabled) { background: #ead8c3; }
 
 .submit:disabled,
 .cancel:disabled { opacity: 0.6; cursor: not-allowed; }
