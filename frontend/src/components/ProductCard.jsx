@@ -24,20 +24,25 @@ export default function ProductCard({
 
   return (
     <div className={styles.card}>
-      {img ? (
-        <img
-          src={img}
-          alt={name}
-          className={styles.img}
-          onError={() => {
-            console.error("Image load error:", img);
-          }}
-        />
-      ) : (
-        <div className={styles.noImage}>
-          No image uploaded
-        </div>
-      )}
+      <div className={styles.imageFrame}>
+        {img ? (
+          <>
+            <img src={img} alt="" className={styles.imgBackdrop} aria-hidden="true" />
+            <img
+              src={img}
+              alt={name}
+              className={styles.img}
+              onError={() => {
+                console.error("Image load error:", img);
+              }}
+            />
+          </>
+        ) : (
+          <div className={styles.noImage}>
+            No image uploaded
+          </div>
+        )}
+      </div>
 
       <div className={styles.cardActions}>
         <button
