@@ -417,7 +417,7 @@
 
   .userInfo {
     justify-content: flex-start;
-    gap: 10px;
+    gap: 18px;
   }
 
   .navTabs {
@@ -471,7 +471,8 @@
 
   .logoutBtn {
     flex-shrink: 0;
-    padding: 8px 14px;
+    font-size: 11px;
+    padding: 6px 12px;
     width: auto;
   }
 
