@@ -51,6 +51,7 @@ api.interceptors.response.use(
       return api(originalRequest)
     } catch (refreshError) {
       localStorage.removeItem('tokens')
+      sessionStorage.removeItem('activeSession')
       delete api.defaults.headers.common.Authorization
       return Promise.reject(refreshError)
     }

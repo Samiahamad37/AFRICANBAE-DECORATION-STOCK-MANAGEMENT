@@ -60,7 +60,8 @@ export const AuthProvider = ({ children }) => {
   // Load tokens from localStorage on mount
   useEffect(() => {
     const storedTokens = localStorage.getItem('tokens')
-    if (storedTokens) {
+    const hasActiveSession = sessionStorage.getItem('activeSession') === 'true'
+    if (storedTokens && hasActiveSession) {
       try {
         const parsed = JSON.parse(storedTokens)
         setTokens(parsed)
@@ -72,6 +73,8 @@ export const AuthProvider = ({ children }) => {
         console.error('Error loading tokens:', err)
         localStorage.removeItem('tokens')
       }
+    } else {
+      localStorage.removeItem('tokens')
     }
     setLoading(false)
   }, [])
@@ -117,6 +120,7 @@ export const AuthProvider = ({ children }) => {
         email: response.data.email || '',
       })
       localStorage.setItem('tokens', JSON.stringify(response.data))
+      sessionStorage.setItem('activeSession', 'true')
       api.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`
       fetchUserProfile(response.data.access)
       return { success: true }
@@ -136,6 +140,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null)
     setTokens(null)
     localStorage.removeItem('tokens')
+    sessionStorage.removeItem('activeSession')
     delete api.defaults.headers.common['Authorization']
   }, [])
 
