@@ -1,4 +1,5 @@
 import styles from './ProductCard.module.css';
+import { formatTsh } from '../utils/currency';
 
 export default function ProductCard({
   product,
@@ -62,7 +63,7 @@ export default function ProductCard({
 
         <div className={styles.meta}>
           <span className={styles.price}>
-            ${Number(price).toFixed(2)}
+            {formatTsh(price)}
           </span>
 
           <span
@@ -79,7 +80,7 @@ export default function ProductCard({
           onClick={() => onSell(product)}
           disabled={stock <= 0}
         >
-          {stock <= 0 ? 'Out of Stock' : '🛒 Sell Product'}
+          {stock <= 0 ? 'Out of Stock' : 'Sell Product'}
         </button>
 
         <button
