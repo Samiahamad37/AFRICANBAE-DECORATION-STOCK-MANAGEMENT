@@ -1,7 +1,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.45);
+  background: rgba(36, 26, 20, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,9 +10,10 @@
 }
 
 .modal {
-  background: #fff;
-  border-radius: 14px;
-  border: 1px solid #e0e0d8;
+  background: #fffaf3;
+  border-radius: 22px;
+  border: 1px solid #eadfce;
+  box-shadow: 0 28px 80px rgba(36, 26, 20, 0.28);
   padding: 28px;
   width: 360px;
   max-width: 95vw;
@@ -23,41 +24,44 @@
 .title {
   font-size: 17px;
   font-weight: 700;
-  color: #111;
+  color: #241a14;
   margin-bottom: 6px;
 }
 
 .productName {
   font-size: 14px;
-  color: #555;
+  color: #6f5542;
   margin-bottom: 4px;
 }
 
 .stockInfo {
   font-size: 13px;
-  color: #888;
+  color: #8a7465;
   margin-bottom: 16px;
 }
 
 .label {
   display: block;
   font-size: 13px;
-  color: #555;
+  color: #6f5542;
   margin-bottom: 6px;
 }
 
 .input {
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px 14px;
   font-size: 15px;
-  border: 1px solid #d0d0c8;
-  border-radius: 8px;
-  color: #111;
+  border: 1px solid #e2d4c3;
+  border-radius: 12px;
+  color: #241a14;
   outline: none;
   transition: border-color 0.12s;
 }
 
-.input:focus { border-color: #1a56db; }
+.input:focus {
+  border-color: #8a4f2f;
+  box-shadow: 0 0 0 4px rgba(138, 79, 47, 0.12);
+}
 
 .error {
   font-size: 12px;
@@ -82,25 +86,25 @@
 }
 
 .btnCancel {
-  background: #f0f0ec;
-  color: #444;
+  background: #f1e5d6;
+  color: #5f321d;
 }
 
-.btnCancel:hover { background: #e4e4e0; }
+.btnCancel:hover { background: #ead8c3; }
 
 .btnSell {
-  background: #16a34a;
+  background: #9b5a36;
   color: #fff;
 }
 
-.btnSell:hover:not(:disabled) { background: #15803d; }
+.btnSell:hover:not(:disabled) { background: #6b3921; }
 
 .btnRestock {
-  background: #1a56db;
+  background: #8a4f2f;
   color: #fff;
 }
 
-.btnRestock:hover:not(:disabled) { background: #1e40af; }
+.btnRestock:hover:not(:disabled) { background: #5f321d; }
 
 .actions button:disabled { opacity: 0.6; cursor: not-allowed; }
 
