@@ -44,7 +44,7 @@ export default function Register() {
     const result = await register(username, email, password, password2)
     setIsLoading(false)
     if (result.success) {
-      navigate('/')
+      navigate('/login')
     }
   }
 
