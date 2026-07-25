@@ -415,6 +415,11 @@
     font-size: 13px;
   }
 
+  .userInfo {
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
   .navTabs {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -464,9 +469,14 @@
     font-size: 13px;
   }
 
-  .logoutBtn,
+  .logoutBtn {
+    flex-shrink: 0;
+    padding: 8px 14px;
+    width: auto;
+  }
+
   .link {
-    width: 100%;
     text-align: center;
+    width: 100%;
   }
 }
