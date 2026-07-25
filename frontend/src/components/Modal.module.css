@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 16px;
   z-index: 200;
 }
 
@@ -15,6 +16,8 @@
   padding: 28px;
   width: 360px;
   max-width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .title {
@@ -100,3 +103,14 @@
 .btnRestock:hover:not(:disabled) { background: #1e40af; }
 
 .actions button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+@media (max-width: 480px) {
+  .modal {
+    padding: 20px;
+    width: 100%;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../api/AuthContext'
 import styles from './AuthPages.module.css'
@@ -12,8 +12,17 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false)
   const [showPassword2, setShowPassword2] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const { register, error } = useAuth()
+  const { register, error, clearError, isAuthenticated } = useAuth()
   const navigate = useNavigate()
+  const isPasswordTooShort = password.length > 0 && password.length < 8
+
+  useEffect(() => {
+    clearError()
+  }, [clearError])
+
+  useEffect(() => {
+    if (isAuthenticated) navigate('/')
+  }, [isAuthenticated, navigate])
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value)
@@ -35,7 +44,7 @@ export default function Register() {
     const result = await register(username, email, password, password2)
     setIsLoading(false)
     if (result.success) {
-      navigate('/login')
+      navigate('/')
     }
   }
 
@@ -52,6 +61,8 @@ export default function Register() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
+              pattern="^[^@]+$"
+              title="Username cannot contain @"
               placeholder="Choose a username"
             />
           </div>
@@ -77,6 +88,7 @@ export default function Register() {
                 value={password}
                 onChange={handlePasswordChange}
                 required
+                minLength={8}
                 placeholder="Enter a strong password"
               />
               <button
@@ -88,6 +100,11 @@ export default function Register() {
                 {showPassword ? '👁️' : '👁️‍🗨️'}
               </button>
             </div>
+            {isPasswordTooShort && (
+              <div className={styles.error}>
+                Password must be at least 8 characters.
+              </div>
+            )}
           </div>
 
           <div className={styles.formGroup}>
@@ -99,6 +116,7 @@ export default function Register() {
                 value={password2}
                 onChange={handlePassword2Change}
                 required
+                minLength={8}
                 placeholder="Confirm your password"
               />
               <button
@@ -109,20 +127,19 @@ export default function Register() {
               >
                 {showPassword2 ? '👁️' : '👁️‍🗨️'}
               </button>
-             
             </div>
-             {password2 && password !== password2 && (
-                <div className={styles.error}>
-                   Passwords do not match.
-                 </div>
-)}
-                    </div>
+            {password2 && password !== password2 && (
+              <div className={styles.error}>
+                Passwords do not match.
+              </div>
+            )}
+          </div>
 
           {error && <div className={styles.error}>{error}</div>}
 
           <button
             type="submit"
-            disabled={isLoading || !passwordMatch}
+            disabled={isLoading || !passwordMatch || isPasswordTooShort}
             className={styles.submitBtn}
           >
             {isLoading ? 'Creating account...' : 'Register'}

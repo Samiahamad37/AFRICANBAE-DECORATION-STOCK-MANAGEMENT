@@ -9,6 +9,24 @@
   padding: 0;
 }
 
+:root {
+  --color-bg: #f7f1e8;
+  --color-surface: #fffaf3;
+  --color-surface-strong: #ffffff;
+  --color-text: #241a14;
+  --color-muted: #7c6f64;
+  --color-border: #eadfce;
+  --color-brand: #8a4f2f;
+  --color-brand-dark: #5f321d;
+  --color-brand-soft: #f1d8bf;
+  --color-accent: #1f7a5f;
+  --color-danger: #b42318;
+  --shadow-sm: 0 10px 24px rgba(72, 47, 31, 0.08);
+  --shadow-md: 0 18px 45px rgba(72, 47, 31, 0.12);
+  --radius-md: 14px;
+  --radius-lg: 22px;
+}
+
 /* Root layout */
 html,
 body,
@@ -21,8 +39,10 @@ body,
 /* Body */
 body {
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: #f5f5f0;
-  color: #1a1a1a;
+  background:
+    radial-gradient(circle at top left, rgba(241, 216, 191, 0.55), transparent 32rem),
+    linear-gradient(180deg, #fffaf3 0%, var(--color-bg) 100%);
+  color: var(--color-text);
   line-height: 1.5;
 }
 
@@ -39,12 +59,25 @@ button {
   font-family: inherit;
 }
 
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
 input,
 textarea,
 select,
 button {
   font-family: inherit;
   max-width: 100%;
+}
+
+input,
+textarea,
+select {
+  accent-color: var(--color-brand);
 }
 
 /* Links */

@@ -13,7 +13,9 @@ export default function Modal({ product, type, onConfirm, onClose, loading }) {
   }
 
   return (
-    <div className={styles.overlay} onClick={onClose}>
+    <div className={styles.overlay} onClick={() => {
+      if (!loading) onClose()
+    }}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <h3 className={styles.title}>
           {isSell ? 'Sell Product' : 'Restock Product'}

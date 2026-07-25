@@ -4,6 +4,7 @@ export default function ProductCard({
   product,
   onSell,
   onRestock,
+  onEdit,
   onDelete,
 }) {
   const {
@@ -12,18 +13,13 @@ export default function ProductCard({
     description,
     price,
     stock,
-    image,
   } = product;
 
   // Use the full URL from the backend
-  const img = 
-  product.image_url?.replace("http://", "https://") || 
-   product.image ||
+  const img =
+    product.image_url?.replace("http://", "https://") ||
+    product.image ||
     null;
-
-  console.log("Product ID:", product.id);
-  console.log("Product Name:", name);
-  console.log("Image URL:", img);
 
   return (
     <div className={styles.card}>
@@ -35,9 +31,6 @@ export default function ProductCard({
           onError={() => {
             console.error("Image load error:", img);
           }}
-          onLoad={() => {
-            console.log("Image loaded successfully:", img);
-          }}
         />
       ) : (
         <div className={styles.noImage}>
@@ -45,13 +38,22 @@ export default function ProductCard({
         </div>
       )}
 
-      <button
-        className={styles.delBtn}
-        onClick={() => onDelete(product.id)}
-        aria-label={`Delete ${name}`}
-      >
-        🗑
-      </button>
+      <div className={styles.cardActions}>
+        <button
+          className={styles.editBtn}
+          onClick={() => onEdit(product)}
+          aria-label={`Edit ${name}`}
+        >
+          Edit
+        </button>
+        <button
+          className={styles.delBtn}
+          onClick={() => onDelete(product.id)}
+          aria-label={`Delete ${name}`}
+        >
+          🗑
+        </button>
+      </div>
 
       <div className={styles.body}>
         <p className={styles.name}>{name}</p>
@@ -75,8 +77,9 @@ export default function ProductCard({
         <button
           className={styles.btnSell}
           onClick={() => onSell(product)}
+          disabled={stock <= 0}
         >
-          🛒 Sell Product
+          {stock <= 0 ? 'Out of Stock' : '🛒 Sell Product'}
         </button>
 
         <button

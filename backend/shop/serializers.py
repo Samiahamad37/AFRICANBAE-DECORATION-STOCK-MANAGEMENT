@@ -16,8 +16,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_image_url(self, obj):
         if obj.image:
-             url = str(obj.image.url)
-        return url.replace('http://', 'https://')  # Ensure secure URL
+            url = str(obj.image.url)
+            return url.replace('http://', 'https://')  # Ensure secure URL
         return None
 
 

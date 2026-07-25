@@ -1,14 +1,17 @@
 .card {
+  position: relative;
   background: #fff;
   border: 1px solid #e8e8e4;
   border-radius: 14px;
   overflow: hidden;
-  transition: border-color 0.15s, transform 0.15s;
+  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.04);
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
 }
 
 .card:hover {
   border-color: #c8c8c0;
   transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(17, 24, 39, 0.08);
 }
 
 .imgWrap {
@@ -21,13 +24,29 @@
   object-fit: cover;
 }
 
-.delBtn {
+.noImage {
+  height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.cardActions {
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 32px;
+  display: flex;
+  gap: 6px;
+}
+
+.editBtn,
+.delBtn {
   height: 32px;
-  background: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.95);
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 14px;
@@ -35,6 +54,20 @@
   align-items: center;
   justify-content: center;
   transition: background 0.12s;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
+}
+
+.editBtn {
+  padding: 0 10px;
+}
+
+.delBtn {
+  width: 32px;
+}
+
+.editBtn:hover {
+  background: #dbeafe;
+  border-color: #93c5fd;
 }
 
 .delBtn:hover {
@@ -109,6 +142,11 @@
 
 .btnSell:hover { background: #15803d; }
 
+.btnSell:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
 .btnRestock {
   width: 100%;
   background: #1a56db;
@@ -122,3 +160,20 @@
 }
 
 .btnRestock:hover { background: #1e40af; }
+
+@media (max-width: 480px) {
+  .img,
+  .noImage {
+    height: 165px;
+  }
+
+  .body {
+    padding: 12px;
+  }
+
+  .meta {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+}

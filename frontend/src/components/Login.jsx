@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../api/AuthContext'
 import styles from './AuthPages.module.css'
@@ -9,8 +9,16 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const { login, error } = useAuth()
+  const { login, error, clearError, isAuthenticated } = useAuth()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    clearError()
+  }, [clearError])
+
+  useEffect(() => {
+    if (isAuthenticated) navigate('/')
+  }, [isAuthenticated, navigate])
 
   const handleSubmit = async (e) => {
     e.preventDefault()

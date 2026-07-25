@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
-  getProducts, createProduct, deleteProduct,
+  getProducts, createProduct, updateProduct, deleteProduct,
   sellProduct, restockProduct, getSales,
 } from '../api/client'
 import ProductCard from './ProductCard'
@@ -9,8 +9,12 @@ import Modal from './Modal'
 import AddProductForm from './AddProductForm'
 import SalesTable from './SalesTable'
 import styles from '../App.module.css'
+import modalStyles from './Modal.module.css'
 
-export default function Inventory() {
+export default function Inventory({
+  setProducts: setHeaderProducts,
+  setSales: setHeaderSales,
+} = {}) {
   const location = useLocation()
   const navigate = useNavigate()
   const [products, setProducts] = useState([])
@@ -21,35 +25,50 @@ export default function Inventory() {
   const [error, setError] = useState(null)
   const [selectedProductId, setSelectedProductId] = useState('')
   const [saleQty, setSaleQty] = useState('1')
+  const [editingProduct, setEditingProduct] = useState(null)
 
   // Determine active tab based on location pathname
   const currentTab = location.pathname === '/sales' ? 'sales' : location.pathname === '/add' ? 'add' : 'inventory'
+
+  const syncProducts = (updater) => {
+    setProducts(updater)
+    setHeaderProducts?.(updater)
+  }
+
+  const syncSales = (updater) => {
+    setSales(updater)
+    setHeaderSales?.(updater)
+  }
 
   const loadAll = useCallback(async () => {
     try {
       setFetching(true)
       const [pRes, sRes] = await Promise.all([getProducts(), getSales()])
-      setProducts(pRes.data.results ?? pRes.data)
-      setSales(sRes.data.results ?? sRes.data)
+      const productList = pRes.data.results ?? pRes.data
+      const salesList = sRes.data.results ?? sRes.data
+      setProducts(productList)
+      setSales(salesList)
+      setHeaderProducts?.(productList)
+      setHeaderSales?.(salesList)
     } catch (e) {
       setError('Failed to connect to server. Is the Django backend running?')
     } finally {
       setFetching(false)
     }
-  }, [])
+  }, [setHeaderProducts, setHeaderSales])
 
   useEffect(() => { loadAll() }, [loadAll])
 
   // ── Sell ──────────────────────────────────────────────────
   const handleSellConfirm = async (productId, qty) => {
-     if (loading) return
+    if (loading) return
     setLoading(true)
     try {
       const res = await sellProduct(productId, qty)
-      setProducts((prev) =>
+      syncProducts((prev) =>
         prev.map((p) => (p.id === productId ? res.data.product : p))
       )
-      setSales((prev) => [res.data.sale, ...prev])
+      syncSales((prev) => [res.data.sale, ...prev])
       setModal(null)
       await loadAll()       
     } catch (e) {
@@ -66,7 +85,7 @@ export default function Inventory() {
     setLoading(true)
     try {
       const res = await restockProduct(productId, parseInt(qty))
-      setProducts((prev) =>
+      syncProducts((prev) =>
         prev.map((p) => (p.id === productId ? res.data : p))
       )
       setModal(null)
@@ -81,11 +100,32 @@ export default function Inventory() {
   // ── Delete ─────────────────────────────────────────────────
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this product?')) return
+    setLoading(true)
     try {
       await deleteProduct(id)
-      setProducts((prev) => prev.filter((p) => p.id !== id))
+      syncProducts((prev) => prev.filter((p) => p.id !== id))
     } catch (e) {
       alert('Delete failed.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // ── Edit product ───────────────────────────────────────────
+  const handleEdit = async (formData, onSuccess) => {
+    if (!editingProduct) return
+    setLoading(true)
+    try {
+      const res = await updateProduct(editingProduct.id, formData)
+      syncProducts((prev) =>
+        prev.map((p) => (p.id === editingProduct.id ? res.data : p))
+      )
+      onSuccess()
+      setEditingProduct(null)
+    } catch (e) {
+      alert('Failed to update product. Check your inputs.')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -97,10 +137,10 @@ export default function Inventory() {
     setLoading(true)
     try {
       const res = await sellProduct(selectedProductId, parseInt(saleQty))
-      setProducts((prev) =>
-        prev.map((p) => (p.id === selectedProductId ? res.data.product : p))
+      syncProducts((prev) =>
+        prev.map((p) => (String(p.id) === selectedProductId ? res.data.product : p))
       )
-      setSales((prev) => [res.data.sale, ...prev])
+      syncSales((prev) => [res.data.sale, ...prev])
       setSelectedProductId('')
       setSaleQty('1')
     } catch (e) {
@@ -115,7 +155,7 @@ export default function Inventory() {
     setLoading(true)
     try {
       const res = await createProduct(formData)
-      setProducts((prev) => [res.data, ...prev])
+      syncProducts((prev) => [res.data, ...prev])
       onSuccess()
       navigate('/')
     } catch (e) {
@@ -148,6 +188,7 @@ export default function Inventory() {
                 product={p}
                 onSell={() => setModal({ product: p, type: 'sell' })}
                 onRestock={() => setModal({ product: p, type: 'restock' })}
+                onEdit={setEditingProduct}
                 onDelete={handleDelete}
               />
             ))}
@@ -247,8 +288,27 @@ export default function Inventory() {
               : handleRestockConfirm(modal.product.id, qty)
           }
           onClose={() => setModal(null)}
-          isLoading={loading}
+          loading={loading}
         />
+      )}
+
+      {editingProduct && (
+        <div
+          className={modalStyles.overlay}
+          onClick={() => {
+            if (!loading) setEditingProduct(null)
+          }}
+        >
+          <div className={modalStyles.modal} onClick={(e) => e.stopPropagation()}>
+            <AddProductForm
+              mode="edit"
+              product={editingProduct}
+              onSave={handleEdit}
+              onCancel={() => setEditingProduct(null)}
+              loading={loading}
+            />
+          </div>
+        </div>
       )}
     </div>
   )

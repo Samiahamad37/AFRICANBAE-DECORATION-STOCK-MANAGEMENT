@@ -4,9 +4,9 @@ import styles from './Header.module.css'
 import logo from '../assets/images/logo.png'
 
 const TABS = [
-  { key: 'inventory', label: '📦 Inventory', path: '/' },
-  { key: 'sales', label: '🛒 Sales', path: '/sales' },
-  { key: 'add', label: '➕ Add Product', path: '/add' },
+  { key: 'inventory', label: 'Inventory', path: '/' },
+  { key: 'sales', label: 'Sales', path: '/sales' },
+  { key: 'add', label: 'Add Product', path: '/add' },
 ]
 
 export default function Header({ totalProducts = 0, totalSales = 0 }) {

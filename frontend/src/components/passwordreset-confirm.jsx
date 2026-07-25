@@ -13,9 +13,12 @@ function ResetPasswordConfirm() {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
+  const passwordsDoNotMatch = new_password2 && new_password !== new_password2;
+  const passwordTooShort = new_password && new_password.length < 8;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (passwordsDoNotMatch || passwordTooShort) return;
 
     setLoading(true);
     setError("");
@@ -62,67 +65,65 @@ function ResetPasswordConfirm() {
 
         <form onSubmit={handleSubmit}>
           <div className={styles.formGroup}>
-            <label>New Password</label>
-            <div style={{ position: 'relative' }}>
+            <label htmlFor="new-password">New Password</label>
+            <div className={styles.passwordInputWrapper}>
               <input
+                id="new-password"
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter new password"
                 value={new_password}
                 onChange={(e) => setNewPassword(e.target.value)}
-                style={{ paddingRight: '40px', width: '100%' }}
+                required
+                minLength={8}
               />
               <button
                 type="button"
+                className={styles.togglePasswordBtn}
                 onClick={() => setShowPassword(!showPassword)}
-                style={{
-                  position: 'absolute',
-                  right: '10px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: '14px'
-                }}
+                aria-label={showPassword ? "Hide password" : "Show password"}
               >
-                {showPassword ? '🙈' : '👁️'}
+                {showPassword ? '👁️' : '👁️‍🗨️'}
               </button>
             </div>
+            {passwordTooShort && (
+              <div className={styles.error}>
+                Password must be at least 8 characters.
+              </div>
+            )}
           </div>
 
           <div className={styles.formGroup}>
-            <label>Confirm Password</label>
-            <div style={{ position: 'relative' }}>
+            <label htmlFor="confirm-password">Confirm Password</label>
+            <div className={styles.passwordInputWrapper}>
               <input
+                id="confirm-password"
                 type={showPassword2 ? "text" : "password"}
                 placeholder="Confirm password"
                 value={new_password2}
                 onChange={(e) => setNewPassword2(e.target.value)}
-                style={{ paddingRight: '40px', width: '100%' }}
+                required
+                minLength={8}
               />
               <button
                 type="button"
+                className={styles.togglePasswordBtn}
                 onClick={() => setShowPassword2(!showPassword2)}
-                style={{
-                  position: 'absolute',
-                  right: '10px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: '14px'
-                }}
+                aria-label={showPassword2 ? "Hide password" : "Show password"}
               >
-                {showPassword2 ? '🙈' : '👁️'}
+                {showPassword2 ? '👁️' : '👁️‍🗨️'}
               </button>
             </div>
+            {passwordsDoNotMatch && (
+              <div className={styles.error}>
+                Passwords do not match.
+              </div>
+            )}
           </div>
 
           <button
             type="submit"
             className={styles.submitBtn}
-            disabled={loading}
+            disabled={loading || passwordsDoNotMatch || passwordTooShort}
           >
             {loading
               ? "Resetting..."

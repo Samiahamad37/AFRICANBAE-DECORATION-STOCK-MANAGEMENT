@@ -273,3 +273,51 @@
   color: #888;
   margin: 0;
 }
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 16px;
+  }
+
+  .processForm {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .productSelect,
+  .qtyInput,
+  .processSaleBtn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 12px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .statCard,
+  .processSection,
+  .historySection {
+    padding: 18px;
+  }
+
+  .statValue {
+    font-size: 24px;
+  }
+}

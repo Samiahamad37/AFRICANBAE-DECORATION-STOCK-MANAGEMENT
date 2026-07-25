@@ -106,10 +106,10 @@ class PasswordResetView(APIView):
 
             return Response(
                 {
-                    "success": False,
-                    "message": "User not found"
+                    "success": True,
+                    "message": "If that email exists, a password reset link has been sent"
                 },
-                status=status.HTTP_404_NOT_FOUND
+                status=status.HTTP_200_OK
             )
 
 

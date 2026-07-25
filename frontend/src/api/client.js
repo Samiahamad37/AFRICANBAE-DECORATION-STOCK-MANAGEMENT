@@ -1,10 +1,7 @@
 import axios from 'axios'
 
-console.log("API URL:", import.meta.env.VITE_API_URL);
-
 const api = axios.create({
- baseURL: import.meta.env.VITE_API_URL,
-  headers: { 'Content-Type': 'application/json' },
+  baseURL: import.meta.env.VITE_API_URL,
 })
 
 // Add JWT token to requests
@@ -21,13 +18,51 @@ api.interceptors.request.use((config) => {
   return config
 })
 
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config
+
+    if (
+      error.response?.status !== 401 ||
+      originalRequest?._retry ||
+      originalRequest?.url?.includes('/auth/refresh/')
+    ) {
+      return Promise.reject(error)
+    }
+
+    const storedTokens = localStorage.getItem('tokens')
+    if (!storedTokens) return Promise.reject(error)
+
+    try {
+      const tokens = JSON.parse(storedTokens)
+      if (!tokens?.refresh) return Promise.reject(error)
+
+      originalRequest._retry = true
+      const response = await api.post('/auth/refresh/', {
+        refresh: tokens.refresh,
+      })
+      const newTokens = { ...tokens, access: response.data.access }
+
+      localStorage.setItem('tokens', JSON.stringify(newTokens))
+      api.defaults.headers.common.Authorization = `Bearer ${newTokens.access}`
+      originalRequest.headers.Authorization = `Bearer ${newTokens.access}`
+
+      return api(originalRequest)
+    } catch (refreshError) {
+      localStorage.removeItem('tokens')
+      delete api.defaults.headers.common.Authorization
+      return Promise.reject(refreshError)
+    }
+  }
+)
+
 // ── Products ──────────────────────────────────────────────
 export const getProducts = () => api.get('/products/')
 
-export const createProduct = (formData) =>
-  api.post('/products/', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  })
+export const createProduct = (formData) => api.post('/products/', formData)
+
+export const updateProduct = (id, formData) => api.patch(`/products/${id}/`, formData)
 
 export const deleteProduct = (id) => api.delete(`/products/${id}/`)
 
@@ -62,8 +97,4 @@ export const resetPassword = (
       new_password2,
     }
   )
-// api/client.js
-axios.defaults.withCredentials = true;
-
-
 export default api

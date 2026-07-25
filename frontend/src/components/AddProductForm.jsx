@@ -1,13 +1,36 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './AddProductForm.module.css'
 
 const EMPTY = { name: '', category: '', description: '', price: '', stock: '' }
 
-export default function AddProductForm({ onAdd, loading }) {
+export default function AddProductForm({
+  onAdd,
+  onSave,
+  onCancel,
+  loading,
+  product = null,
+  mode = 'add',
+}) {
   const [form, setForm] = useState(EMPTY)
   const [image, setImage] = useState(null)
   const [preview, setPreview] = useState(null)
   const [errors, setErrors] = useState({})
+  const isEdit = mode === 'edit'
+
+  useEffect(() => {
+    if (!product) return
+
+    setForm({
+      name: product.name || '',
+      category: product.category || '',
+      description: product.description || '',
+      price: product.price || '',
+      stock: product.stock ?? '',
+    })
+    setImage(null)
+    setPreview(product.image_url || product.image || null)
+    setErrors({})
+  }, [product])
 
   const set = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }))
 
@@ -22,14 +45,15 @@ export default function AddProductForm({ onAdd, loading }) {
     const errs = {}
     if (!form.name.trim()) errs.name = 'Name is required'
     if (!form.category.trim()) errs.category = 'Category is required'
-    if (!form.price || isNaN(form.price) || Number(form.price) < 0)
+    if (form.price === '' || isNaN(form.price) || Number(form.price) < 0)
       errs.price = 'Valid price required'
-    if (!form.stock || isNaN(form.stock) || Number(form.stock) < 0)
+    if (form.stock === '' || isNaN(form.stock) || Number(form.stock) < 0)
       errs.stock = 'Valid stock required'
     return errs
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
     const errs = validate()
     if (Object.keys(errs).length) { setErrors(errs); return }
     setErrors({})
@@ -42,7 +66,10 @@ export default function AddProductForm({ onAdd, loading }) {
     data.append('stock', form.stock)
     if (image) data.append('image', image)
 
-    onAdd(data, () => {
+    const onSubmit = isEdit ? onSave : onAdd
+    if (!onSubmit) return
+
+    onSubmit(data, () => {
       setForm(EMPTY)
       setImage(null)
       setPreview(null)
@@ -50,8 +77,8 @@ export default function AddProductForm({ onAdd, loading }) {
   }
 
   return (
-    <div className={styles.wrap}>
-      <h2 className={styles.heading}>Add New Product</h2>
+    <form className={styles.wrap} onSubmit={handleSubmit}>
+      {isEdit && <h2 className={styles.heading}>Edit Product</h2>}
 
       {preview && (
         <img src={preview} alt="Preview" className={styles.preview} />
@@ -102,7 +129,7 @@ export default function AddProductForm({ onAdd, loading }) {
           {errors.price && <p className={styles.error}>{errors.price}</p>}
         </div>
         <div className={styles.col}>
-          <label className={styles.label}>Initial Stock *</label>
+          <label className={styles.label}>{isEdit ? 'Stock *' : 'Initial Stock *'}</label>
           <input
             className={`${styles.input} ${errors.stock ? styles.inputError : ''}`}
             type="number"
@@ -115,9 +142,16 @@ export default function AddProductForm({ onAdd, loading }) {
         </div>
       </div>
 
-      <button className={styles.submit} onClick={handleSubmit} disabled={loading}>
-        {loading ? 'Adding…' : '+ Add Product'}
-      </button>
-    </div>
+      <div className={styles.actions}>
+        {isEdit && (
+          <button type="button" className={styles.cancel} onClick={onCancel} disabled={loading}>
+            Cancel
+          </button>
+        )}
+        <button type="submit" className={styles.submit} disabled={loading}>
+          {loading ? (isEdit ? 'Saving...' : 'Adding...') : isEdit ? 'Save Changes' : '+ Add Product'}
+        </button>
+      </div>
+    </form>
   )
 }

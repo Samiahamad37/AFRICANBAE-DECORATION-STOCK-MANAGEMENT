@@ -29,6 +29,7 @@ function ForgotPassword() {
     } catch (err) {
       console.error('Password reset error:', err);
       const errorMsg = err.response?.data?.message ||
+                       err.response?.data?.error ||
                        err.response?.data?.detail ||
                        err.message ||
                        "Failed to send reset link. Try again.";

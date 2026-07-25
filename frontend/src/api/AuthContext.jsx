@@ -3,6 +3,54 @@ import api from './client'
 
 export const AuthContext = createContext()
 
+const getApiErrorMessage = (err, fallback) => {
+  if (!err.response) {
+    return 'Cannot reach backend. Check the API URL, backend server, or CORS settings.'
+  }
+
+  const { data, status } = err.response
+
+  if (typeof data === 'string' && data.trim()) {
+    if (data.includes('<!DOCTYPE') || data.includes('<html')) {
+      return `Server error (${status}). Check the backend logs for the exact failure.`
+    }
+    return data
+  }
+
+  if (data && typeof data === 'object') {
+    const preferredFields = [
+      'username',
+      'email',
+      'password',
+      'password2',
+      'old_password',
+      'new_password',
+      'new_password2',
+      'non_field_errors',
+      'detail',
+      'message',
+      'error',
+    ]
+
+    for (const field of preferredFields) {
+      const value = data[field]
+      if (Array.isArray(value) && value[0]) return value[0]
+      if (typeof value === 'string' && value) return value
+    }
+
+    for (const value of Object.values(data)) {
+      if (Array.isArray(value) && value[0]) return value[0]
+      if (typeof value === 'string' && value) return value
+    }
+  }
+
+  if (status >= 500) {
+    return `Server error (${status}). Check the backend logs for the exact failure.`
+  }
+
+  return fallback
+}
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [tokens, setTokens] = useState(null)
@@ -54,14 +102,7 @@ export const AuthProvider = ({ children }) => {
       api.defaults.headers.common['Authorization'] = `Bearer ${response.data.tokens.access}`
       return { success: true }
     } catch (err) {
-      const errorMsg =
-        err.response?.data?.username?.[0] ||
-        err.response?.data?.email?.[0] ||
-        err.response?.data?.password?.[0] ||
-        err.response?.data?.password2?.[0] ||
-        err.response?.data?.non_field_errors?.[0] ||
-        err.response?.data?.detail ||
-        'Registration failed'
+      const errorMsg = getApiErrorMessage(err, 'Registration failed')
       setError(errorMsg)
       return { success: false, error: errorMsg }
     }
@@ -84,7 +125,7 @@ export const AuthProvider = ({ children }) => {
       fetchUserProfile(response.data.access)
       return { success: true }
     } catch (err) {
-      const errorMsg = err.response?.data?.detail || 'Login failed'
+      const errorMsg = getApiErrorMessage(err, 'Login failed')
       setError(errorMsg)
       return { success: false, error: errorMsg }
     }
@@ -112,7 +153,7 @@ export const AuthProvider = ({ children }) => {
       })
       return { success: true, message: 'Password changed successfully' }
     } catch (err) {
-      const errorMsg = err.response?.data?.old_password?.[0] || err.response?.data?.message || 'Failed to change password'
+      const errorMsg = getApiErrorMessage(err, 'Failed to change password')
       setError(errorMsg)
       return { success: false, error: errorMsg }
     }
@@ -136,11 +177,16 @@ export const AuthProvider = ({ children }) => {
     }
   }, [tokens, logout])
 
+  const clearError = useCallback(() => {
+    setError(null)
+  }, [])
+
   const value = {
     user,
     tokens,
     loading,
     error,
+    clearError,
     isAuthenticated: !!tokens,
     register,
     login,
