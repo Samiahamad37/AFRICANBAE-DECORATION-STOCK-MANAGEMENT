@@ -21,7 +21,8 @@
 .img {
   width: 100%;
   height: 205px;
-  object-fit: cover;
+  background: #f6eadc;
+  object-fit: contain;
 }
 
 .noImage {
@@ -164,7 +165,7 @@
 @media (max-width: 480px) {
   .img,
   .noImage {
-    height: 165px;
+    height: 190px;
   }
 
   .body {
