@@ -116,7 +116,7 @@ export default function AddProductForm({
 
       <div className={styles.row}>
         <div className={styles.col}>
-          <label className={styles.label}>Price ($) *</label>
+          <label className={styles.label}>Price (TSh) *</label>
           <input
             className={`${styles.input} ${errors.price ? styles.inputError : ''}`}
             type="number"
