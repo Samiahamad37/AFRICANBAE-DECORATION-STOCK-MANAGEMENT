@@ -181,9 +181,6 @@ export default function Inventory({
     <div className={styles.container}>
       {currentTab === 'inventory' && (
         <div className={styles.section}>
-          <div className={styles.header}>
-            <h2>Inventory</h2>
-          </div>
           <div className={styles.grid}>
             {products.map((p) => (
               <ProductCard
