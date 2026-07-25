@@ -96,10 +96,6 @@ export const AuthProvider = ({ children }) => {
         password,
         password2,
       })
-      setUser(response.data.user)
-      setTokens(response.data.tokens)
-      localStorage.setItem('tokens', JSON.stringify(response.data.tokens))
-      api.defaults.headers.common['Authorization'] = `Bearer ${response.data.tokens.access}`
       return { success: true }
     } catch (err) {
       const errorMsg = getApiErrorMessage(err, 'Registration failed')
