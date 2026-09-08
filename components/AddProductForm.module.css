@@ -1,0 +1,121 @@
+.wrap {
+  background: rgba(255, 250, 243, 0.96);
+  border: 1px solid #eadfce;
+  border-radius: 22px;
+  box-shadow: 0 14px 34px rgba(72, 47, 31, 0.08);
+  padding: 28px;
+  max-width: 520px;
+}
+
+.heading {
+  font-size: 17px;
+  font-weight: 700;
+  color: #241a14;
+  margin-bottom: 20px;
+}
+
+.preview {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 14px;
+}
+
+.label {
+  display: block;
+  font-size: 13px;
+  color: #6f5542;
+  margin-bottom: 5px;
+  margin-top: 14px;
+}
+
+.label:first-of-type { margin-top: 0; }
+
+.input, .textarea {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 14px;
+  border: 1px solid #e2d4c3;
+  border-radius: 12px;
+  color: #241a14;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+
+.input:focus, .textarea:focus {
+  border-color: #8a4f2f;
+  box-shadow: 0 0 0 4px rgba(138, 79, 47, 0.12);
+}
+
+.inputError { border-color: #e24b4a !important; }
+
+.textarea { resize: vertical; }
+
+.fileInput {
+  width: 100%;
+  font-size: 13px;
+  color: #6f5542;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.col { display: flex; flex-direction: column; }
+
+.error {
+  font-size: 12px;
+  color: #b42318;
+  margin-top: 4px;
+}
+
+.actions {
+  margin-top: 22px;
+  display: flex;
+  gap: 10px;
+}
+
+.submit,
+.cancel {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 13px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background 0.12s;
+}
+
+.submit {
+  background: linear-gradient(135deg, #8a4f2f 0%, #5f321d 100%);
+  color: #fff;
+}
+
+.cancel {
+  background: #f1e5d6;
+  color: #5f321d;
+}
+
+.submit:hover:not(:disabled) { background: linear-gradient(135deg, #9b5a36 0%, #6b3921 100%); }
+.cancel:hover:not(:disabled) { background: #ead8c3; }
+
+.submit:disabled,
+.cancel:disabled { opacity: 0.6; cursor: not-allowed; }
+
+@media (max-width: 480px) {
+  .wrap {
+    padding: 20px;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+}
