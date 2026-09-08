@@ -16,11 +16,12 @@ function notFound() {
 }
 
 // PATCH /api/products/:id — partial update (multipart/form-data, image optional)
-export async function PATCH(req, { params }) {
+export async function PATCH(req, ctx) {
   const user = await getAuthUser(req)
   if (!user) return unauthorized()
 
-  const existing = await findProduct(params.id)
+  const { id } = await ctx.params
+  const existing = await findProduct(id)
   if (!existing) return notFound()
 
   const contentType = req.headers.get('content-type') || ''
@@ -76,11 +77,12 @@ export async function PATCH(req, { params }) {
 }
 
 // DELETE /api/products/:id
-export async function DELETE(req, { params }) {
+export async function DELETE(req, ctx) {
   const user = await getAuthUser(req)
   if (!user) return unauthorized()
 
-  const existing = await findProduct(params.id)
+  const { id } = await ctx.params
+  const existing = await findProduct(id)
   if (!existing) return notFound()
 
   await prisma.product.delete({ where: { id: existing.id } })

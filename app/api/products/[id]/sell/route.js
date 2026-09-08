@@ -5,11 +5,12 @@ import { serializeProduct, serializeSale } from '@/lib/serializers'
 export const dynamic = 'force-dynamic'
 
 // POST /api/products/:id/sell { quantity }
-export async function POST(req, { params }) {
+export async function POST(req, ctx) {
   const user = await getAuthUser(req)
   if (!user) return unauthorized()
 
-  const productId = Number(params.id)
+  const { id } = await ctx.params
+  const productId = Number(id)
   if (!Number.isInteger(productId)) {
     return Response.json({ detail: 'Not found.' }, { status: 404 })
   }

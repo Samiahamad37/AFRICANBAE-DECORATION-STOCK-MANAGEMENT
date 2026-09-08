@@ -4,8 +4,8 @@ import { b64ToUid, checkResetToken } from '@/lib/passwordReset'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(req, { params }) {
-  const { uidb64, token } = params
+export async function POST(req, ctx) {
+  const { uidb64, token } = await ctx.params
   const { new_password, new_password2 } = (await req.json().catch(() => ({}))) || {}
 
   const errors = {}
