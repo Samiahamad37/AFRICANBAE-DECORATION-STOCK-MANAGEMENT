@@ -1,0 +1,44 @@
+// AfricanBae Manager — Prisma schema
+// Postgres (Neon, Supabase, Vercel Postgres all work)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String // bcrypt hash
+  createdAt DateTime @default(now())
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(200)
+  category    String   @db.VarChar(100)
+  description String   @default("")
+  image       String? // Cloudinary secure URL
+  price       Decimal  @db.Decimal(10, 2)
+  stock       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  sales       Sale[]
+}
+
+model Sale {
+  id              Int      @id @default(autoincrement())
+  product         Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId       Int
+  productName     String   @db.VarChar(200) // snapshot at time of sale
+  productCategory String   @db.VarChar(100)
+  unitPrice       Decimal  @db.Decimal(10, 2)
+  quantity        Int
+  total           Decimal  @db.Decimal(10, 2)
+  soldAt          DateTime @default(now())
+}

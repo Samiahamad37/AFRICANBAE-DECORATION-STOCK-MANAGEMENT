@@ -1,17 +1,27 @@
-# React
+# Next.js / Node
 node_modules/
+.next/
+out/
+build/
 dist/
 
-# Django
-venv/
-__pycache__/
-*.pyc
-db.sqlite3
+# env files
+.env
+.env*.local
 
+# vercel
+.vercel/
 
+# Old archived code (Django + Vite)
+_archive/
 
 # VS Code
 .vscode/
 
 # Logs
 *.log
+
+# misc
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
